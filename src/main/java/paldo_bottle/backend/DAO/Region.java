@@ -37,7 +37,6 @@ public class Region {
     @OneToMany(mappedBy = "region")
     private List<Landmark> landmarkList;
 
-
     @Builder
     public Region(String supDistrict, String district){
         this.supDistrict = supDistrict;

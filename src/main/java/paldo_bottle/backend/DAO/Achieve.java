@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="user_achive_")
+@Table(name="user_achieve_challenge")
 public class Achieve {
 
     @Id

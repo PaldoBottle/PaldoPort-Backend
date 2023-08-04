@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @IdClass(OwnStampPK.class)
 @Getter
+@Table(name="user_own_stamp")
 public class OwnStamp {
     @Id
     @ManyToOne

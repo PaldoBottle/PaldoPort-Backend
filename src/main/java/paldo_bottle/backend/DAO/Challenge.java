@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -21,6 +22,8 @@ public class Challenge {
     @OneToMany(mappedBy = "challengeName")
     private List<Achieve>   achieves;
 
+    @Column
     private String  description;
+    @Column
     private Long    point;
 }
