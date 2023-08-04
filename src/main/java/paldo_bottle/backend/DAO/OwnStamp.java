@@ -21,7 +21,14 @@ public class OwnStamp {
     private User  userId;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
+    private String supDistrict;
+
+    @Id
+    @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
+    private String district;
+
+    @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
             @JoinColumn(name = "district", referencedColumnName = "district")

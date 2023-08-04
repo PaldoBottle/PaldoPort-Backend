@@ -17,6 +17,14 @@ public class StampChallenge {
     private String  challengeName;
 
     @Id
+    @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
+    private String supDistrict;
+
+    @Id
+    @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
+    private String district;
+
+    @Id
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
