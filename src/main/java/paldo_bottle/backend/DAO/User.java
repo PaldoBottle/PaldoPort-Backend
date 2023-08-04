@@ -1,0 +1,27 @@
+package paldo_bottle.backend.DAO;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
+
+
+@Getter
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+public class User {
+
+    @Id @GeneratedValue
+    private String  id;
+
+    @OneToMany(mappedBy = "userId")
+    private List<Achieve>   achieves;
+
+    @Column
+    private Long    point;
+    @Column
+    private String  address;
+};
