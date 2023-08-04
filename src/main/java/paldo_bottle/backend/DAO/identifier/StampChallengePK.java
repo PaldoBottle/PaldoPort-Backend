@@ -11,8 +11,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class OwnStampPK implements Serializable {
-    private String  userId;
+public class StampChallengePK implements Serializable {
+    private String  challengeName;
     private String  supDistrict;
     private String  district;
 }
