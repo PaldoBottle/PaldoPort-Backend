@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import paldo_bottle.backend.DAO.identifier.RegionPK;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,4 +27,7 @@ public class Stamp {
 
     @OneToOne(mappedBy = "stamp")
     private Region region;
+
+//    @OneToMany(mappedBy = "stamp")
+//    private List<StampChallenge>    challengeList;
 }

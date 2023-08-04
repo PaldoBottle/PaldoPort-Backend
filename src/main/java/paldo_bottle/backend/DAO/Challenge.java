@@ -22,6 +22,9 @@ public class Challenge {
     @OneToMany(mappedBy = "challengeName")
     private List<Achieve>   achieves;
 
+    @OneToMany(mappedBy = "challengeName")
+    private List<StampChallenge>    stampList;
+
     @Column
     private String  description;
     @Column

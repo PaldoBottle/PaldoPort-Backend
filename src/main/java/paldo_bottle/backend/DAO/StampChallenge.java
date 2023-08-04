@@ -3,36 +3,24 @@ package paldo_bottle.backend.DAO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import paldo_bottle.backend.DAO.identifier.OwnStampPK;
+import paldo_bottle.backend.DAO.identifier.StampChallengePK;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(OwnStampPK.class)
 @Getter
-@Table(name="user_own_stamp")
-public class OwnStamp {
+@IdClass(StampChallengePK.class)
+public class StampChallenge {
     @Id
-    @ManyToOne
-    @JoinColumn(name="id")
-    private User  userId;
+    private String  challengeName;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
             @JoinColumn(name = "district", referencedColumnName = "district")
     })
-    private Stamp  stamp;
-
-    @Column
-    private LocalDateTime   publish_date;
-
-    @Column
-    private Long            publish_number;
-
+    private Stamp stamp;
 }
-
