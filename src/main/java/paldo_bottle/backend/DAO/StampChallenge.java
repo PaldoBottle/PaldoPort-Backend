@@ -1,5 +1,6 @@
 package paldo_bottle.backend.DAO;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 @Getter
 @IdClass(StampChallengePK.class)
 public class StampChallenge {

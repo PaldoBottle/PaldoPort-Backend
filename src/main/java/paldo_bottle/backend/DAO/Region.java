@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import paldo_bottle.backend.DAO.identifier.RegionPK;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,20 +30,19 @@ public class Region {
     @Column(name = "description")
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
     @JoinColumns({
             @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
             @JoinColumn(name = "district", referencedColumnName = "district")
     })
     private Stamp stamp;
 
-    @OneToMany(mappedBy = "region")
-    private List<Landmark> landmarkList;
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
+    private List<Landmark> landmarkList = new ArrayList<>();
 
     @Builder
     public Region(String supDistrict, String district){
         this.supDistrict = supDistrict;
         this.district =district;
     }
-
 }

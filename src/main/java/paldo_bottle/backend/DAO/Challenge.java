@@ -1,19 +1,17 @@
 package paldo_bottle.backend.DAO;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Challenge {
 
     @Id
@@ -22,7 +20,7 @@ public class Challenge {
     @OneToMany(mappedBy = "challengeName")
     private List<Achieve>   achieves;
 
-    @OneToMany(mappedBy = "challengeName")
+    @OneToMany(mappedBy = "challengeName", cascade = CascadeType.ALL)
     private List<StampChallenge>    stampList;
 
     @Column
