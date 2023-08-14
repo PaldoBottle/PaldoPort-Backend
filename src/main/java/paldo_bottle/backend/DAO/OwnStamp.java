@@ -9,6 +9,8 @@ import paldo_bottle.backend.DAO.identifier.OwnStampPK;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,9 +19,9 @@ import java.time.LocalDateTime;
 @Table(name="user_own_stamp")
 public class OwnStamp {
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name="id")
-    private User  userId;
+    private User userId;
 
     @Id
     @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
@@ -29,18 +31,18 @@ public class OwnStamp {
     @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
     private String district;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumns({
             @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
             @JoinColumn(name = "district", referencedColumnName = "district")
     })
-    private Stamp  stamp;
+    private Stamp stamp;
 
     @Column
-    private LocalDateTime   publish_date;
+    private LocalDateTime publish_date;
 
     @Column
-    private Long            publish_number;
+    private Long publish_number;
 
 }
 

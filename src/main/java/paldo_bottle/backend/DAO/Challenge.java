@@ -15,17 +15,17 @@ import java.util.List;
 public class Challenge {
 
     @Id
-    private String  name;
-
-    @OneToMany(mappedBy = "challengeName")
-    private List<Achieve>   achieves;
+    private String name;
 
     @OneToMany(mappedBy = "challengeName", cascade = CascadeType.ALL)
-    private List<StampChallenge>    stampList;
+    private List<Achieve> achieves;
+
+    @OneToMany(mappedBy = "challengeName", cascade = CascadeType.ALL)
+    private List<StampChallenge> stampList;
 
     @Column
-    private String  description;
+    private String description;
 
     @Column
-    private Long    point;
+    private Long point;
 }

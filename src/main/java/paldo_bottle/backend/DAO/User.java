@@ -16,13 +16,16 @@ import java.util.List;
 public class User {
 
     @Id @GeneratedValue
-    private String  id;
+    private String id;
 
-    @OneToMany(mappedBy = "userId")
-    private List<Achieve>   achieves;
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<Achieve> achieves;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<OwnStamp> ownStamps;
 
     @Column
-    private Long    point;
+    private Long point;
     @Column
-    private String  address;
+    private String address;
 };
