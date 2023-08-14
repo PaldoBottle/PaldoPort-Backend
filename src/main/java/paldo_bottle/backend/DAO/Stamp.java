@@ -27,7 +27,4 @@ public class Stamp {
 
     @OneToOne(mappedBy = "stamp")
     private Region region;
-
-//    @OneToMany(mappedBy = "stamp")
-//    private List<StampChallenge>    challengeList;
 }

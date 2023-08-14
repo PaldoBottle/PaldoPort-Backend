@@ -8,6 +8,8 @@ import paldo_bottle.backend.DAO.identifier.StampChallengePK;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
@@ -26,7 +28,7 @@ public class StampChallenge {
     private String district;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumns({
             @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
             @JoinColumn(name = "district", referencedColumnName = "district")
