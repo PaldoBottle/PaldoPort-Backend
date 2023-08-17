@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import paldo_bottle.backend.DAO.identifier.RegionPK;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -27,4 +28,7 @@ public class Stamp {
 
     @OneToOne(mappedBy = "stamp")
     private Region region;
+
+    @OneToMany(mappedBy = "stamp")
+    private List<OwnStamp> owners = new ArrayList<>();
 }
