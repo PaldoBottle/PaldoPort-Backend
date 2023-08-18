@@ -40,7 +40,6 @@ public class Region {
         this.description = description;
     }
 
-    // == 연관관계 메서드 == //
     public void setStamp(Stamp stamp) {
         this.stamp = stamp;
     }
