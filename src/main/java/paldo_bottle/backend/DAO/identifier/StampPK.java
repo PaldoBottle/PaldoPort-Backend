@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import paldo_bottle.backend.DAO.Region;
+
 import java.io.Serializable;
 
 @EqualsAndHashCode
@@ -11,6 +13,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 public class StampPK implements Serializable{
-    private String supDistrict;
-    private String district;
+    private Region region;
 }

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import paldo_bottle.backend.DAO.identifier.RegionPK;
+import paldo_bottle.backend.DAO.identifier.StampPK;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,22 +13,18 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@IdClass(RegionPK.class)
+@IdClass(StampPK.class)
 public class Stamp {
-
     @Id
-    @Column(name = "supDistrict", length = 200, nullable = false)
-    private String supDistrict;
-
-    @Id
-    @Column(name = "district", length = 200, nullable = false)
-    private String district;
+    @OneToOne
+    @JoinColumns({
+            @JoinColumn(name = "supDistrict"),
+            @JoinColumn(name = "district")
+    })
+    private Region region;
 
     @Column(name = "point")
     private Long point;
-
-    @OneToOne(mappedBy = "stamp")
-    private Region region;
 
     @OneToMany(mappedBy = "stamp")
     private List<OwnStamp> owners = new ArrayList<>();

@@ -30,11 +30,7 @@ public class Region {
     @Column(name = "description")
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
-            @JoinColumn(name = "district", referencedColumnName = "district")
-    })
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "region")
     private Stamp stamp;
 
     @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
