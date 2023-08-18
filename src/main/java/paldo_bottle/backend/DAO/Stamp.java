@@ -3,6 +3,7 @@ package paldo_bottle.backend.DAO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import paldo_bottle.backend.DAO.identifier.RegionPK;
 import paldo_bottle.backend.DAO.identifier.StampPK;
 
@@ -28,6 +29,10 @@ public class Stamp {
 
     @OneToMany(mappedBy = "stamp")
     private List<OwnStamp> owners = new ArrayList<>();
+
+    @Column()
+    @ColumnDefault(value = "0")
+    private Long published;
 
     public Stamp(Long point) {
         this.point = point;
