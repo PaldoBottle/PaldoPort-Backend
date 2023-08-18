@@ -28,4 +28,25 @@ public class Stamp {
 
     @OneToMany(mappedBy = "stamp")
     private List<OwnStamp> owners = new ArrayList<>();
+
+    // == 생성 메서드 == //
+    static public Stamp createStamp(String supDistrict, String district,
+                              String region_description, Long stamp_point)
+    {
+        Region region = Region.builder()
+                .supDistrict(supDistrict)
+                .district(district)
+                .description(region_description)
+                .build();
+        Stamp stamp = new Stamp();
+        stamp.setRegion(region);
+        stamp.region = region;
+        return stamp;
+    }
+
+    // == 연관관계 메서드 == //
+    public void setRegion(Region region) {
+        region.setStamp(this);
+        this.region = region;
+    }
 }

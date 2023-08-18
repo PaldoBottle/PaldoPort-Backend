@@ -1,9 +1,6 @@
 package paldo_bottle.backend.DAO;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import paldo_bottle.backend.DAO.identifier.RegionPK;
 
 import javax.persistence.*;
@@ -37,8 +34,14 @@ public class Region {
     private List<Landmark> landmarkList = new ArrayList<>();
 
     @Builder
-    public Region(String supDistrict, String district){
+    public Region(String supDistrict, String district, String description){
         this.supDistrict = supDistrict;
         this.district =district;
+        this.description = description;
+    }
+
+    // == 연관관계 메서드 == //
+    public void setStamp(Stamp stamp) {
+        this.stamp = stamp;
     }
 }
