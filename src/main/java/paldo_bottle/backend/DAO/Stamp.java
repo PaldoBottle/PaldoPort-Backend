@@ -19,8 +19,8 @@ public class Stamp {
     @Id
     @OneToOne
     @JoinColumns({
-            @JoinColumn(name = "supDistrict"),
-            @JoinColumn(name = "district")
+            @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
+            @JoinColumn(name = "district", referencedColumnName = "district")
     })
     private Region region;
 
@@ -40,5 +40,11 @@ public class Stamp {
 
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public void addOwner(OwnStamp owner) {
+        owners.add(owner);
+        this.published += 1;
+        owner.setStamp(this);
     }
 }

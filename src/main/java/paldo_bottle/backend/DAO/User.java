@@ -28,4 +28,10 @@ public class User {
     private Long point;
     @Column
     private String address;
+
+    public void addStamps(OwnStamp ownStamp) {
+        ownStamps.add(ownStamp);
+        ownStamp.setUser(this);
+        this.point += ownStamp.getStamp().getPoint();
+    }
 };

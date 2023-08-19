@@ -1,6 +1,7 @@
 package paldo_bottle.backend.DAO.identifier;
 
 import lombok.*;
+import paldo_bottle.backend.DAO.Region;
 
 import java.io.Serializable;
 
@@ -10,5 +11,5 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class StampPK implements Serializable{
-    private RegionPK region;
+    private Region region;
 }

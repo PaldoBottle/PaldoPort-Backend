@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import paldo_bottle.backend.DAO.Stamp;
+import paldo_bottle.backend.DAO.User;
 
 import java.io.Serializable;
 
@@ -12,7 +14,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 public class OwnStampPK implements Serializable {
-    private String  userId;
-    private String  supDistrict;
-    private String  district;
+    private User    userId;
+    private Stamp   stamp;
+//    private String  supDistrict;
+//    private String  district;
 }
