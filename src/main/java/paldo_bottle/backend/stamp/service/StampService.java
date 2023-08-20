@@ -35,7 +35,6 @@ public class StampService {
         if (optionalUser.isEmpty())
             throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
         User user = optionalUser.get();
-        log.warn("publish stamp");
         Optional<Stamp> optionalStamp = stampRepository.findById(
                 new RegionID(
                         publishStampDto.getSupDistrict(),
@@ -45,9 +44,7 @@ public class StampService {
         if (optionalStamp.isEmpty())
             throw new BaseException(BaseResponseStatus.NOT_EXIST_STAMP);
         Stamp stamp = optionalStamp.get();
-        log.warn("try create ownStamp");
         OwnStamp ownStamp = OwnStamp.createOwnStamp(user, stamp);
-        log.warn("ownstamp created");
         user.addStamps(ownStamp);
         stamp.addOwner(ownStamp);
         userRepository.save(user);

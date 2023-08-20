@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import paldo_bottle.backend.DAO.embedded.OwnStampID;
-import paldo_bottle.backend.DAO.identifier.OwnStampPK;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,33 +15,9 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@IdClass(OwnStampPK.class)
 @Getter
 @Table(name="user_own_stamp")
 public class OwnStamp {
-//    @Id
-//    @ManyToOne(fetch = LAZY)
-//    @JoinColumn(name="id")
-//    private User userId;
-
-//    @Id
-//    @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
-//    private String supDistrict;
-
-//    @Id
-//    @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
-//    private String district;
-
-//    @JoinColumn(name = "region")
-
-//    @Id
-//    @ManyToOne(fetch = LAZY)
-//    @JoinColumns({
-//        @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
-//        @JoinColumn(name = "district", referencedColumnName = "district")
-//    })
-//    private Stamp stamp;
-
     @EmbeddedId
     private OwnStampID ownStampID;
 
@@ -65,12 +40,9 @@ public class OwnStamp {
     @Column
     private Long publish_number;
 
-    // == 연관 관계 메서드 == //
     public void setStamp(Stamp stamp) {
         this.stamp = stamp;
         this.publish_number = stamp.getPublished();
-//        this.supDistrict = stamp.getRegion().getSupDistrict();
-//        this.district = stamp.getRegion().getDistrict();
     }
 
     public void setUser(User user) {

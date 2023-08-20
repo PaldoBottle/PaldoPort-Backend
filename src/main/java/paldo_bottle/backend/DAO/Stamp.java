@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-//@IdClass(StampPK.class)
 public class Stamp {
     @EmbeddedId
     private RegionID location;
@@ -24,14 +23,6 @@ public class Stamp {
            @JoinColumn(name = "district")
    })
    private Region region;
-
-//    @Id
-//    @OneToOne
-//    @JoinColumns({
-//            @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
-//            @JoinColumn(name = "district", referencedColumnName = "district")
-//    })
-//    private Region region;
 
     @Column(name = "point")
     private Long point;

@@ -14,15 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "region")
-//@IdClass(RegionPK.class)
 public class Region {
-//    @Id
-//    @Column(name = "supDistrict", length = 200, nullable = false)
-//    private String supDistrict;
-//
-//    @Id
-//    @Column(name = "district", length = 200, nullable = false)
-//    private String district;
     @EmbeddedId
     private RegionID location;
 
