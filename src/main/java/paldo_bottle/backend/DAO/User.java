@@ -21,7 +21,7 @@ public class User {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<Achieve> achieves;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<OwnStamp> ownStamps;
 
     @Column
@@ -31,7 +31,6 @@ public class User {
 
     public void addStamps(OwnStamp ownStamp) {
         ownStamps.add(ownStamp);
-        ownStamp.setUser(this);
         this.point += ownStamp.getStamp().getPoint();
     }
 };

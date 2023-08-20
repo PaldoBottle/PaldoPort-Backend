@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import paldo_bottle.backend.DAO.embedded.OwnStampID;
 import paldo_bottle.backend.DAO.identifier.OwnStampPK;
 
 import javax.persistence.*;
@@ -15,14 +16,14 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@IdClass(OwnStampPK.class)
+//@IdClass(OwnStampPK.class)
 @Getter
 @Table(name="user_own_stamp")
 public class OwnStamp {
-    @Id
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="id")
-    private User userId;
+//    @Id
+//    @ManyToOne(fetch = LAZY)
+//    @JoinColumn(name="id")
+//    private User userId;
 
 //    @Id
 //    @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
@@ -33,12 +34,28 @@ public class OwnStamp {
 //    private String district;
 
 //    @JoinColumn(name = "region")
-    @Id
-    @ManyToOne(fetch = LAZY)
+
+//    @Id
+//    @ManyToOne(fetch = LAZY)
+//    @JoinColumns({
+//        @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
+//        @JoinColumn(name = "district", referencedColumnName = "district")
+//    })
+//    private Stamp stamp;
+
+    @EmbeddedId
+    private OwnStampID ownStampID;
+
+    @ManyToOne
+    @MapsId("userId")
+    private User user;
+
+    @ManyToOne
     @JoinColumns({
-        @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
-        @JoinColumn(name = "district", referencedColumnName = "district")
+            @JoinColumn(name = "supDistrict"),
+            @JoinColumn(name = "district")
     })
+    @MapsId("location")
     private Stamp stamp;
 
     @Column
@@ -57,11 +74,15 @@ public class OwnStamp {
     }
 
     public void setUser(User user) {
-        this.userId = user;
+        this.user = user;
     }
 
     static public OwnStamp createOwnStamp(User user, Stamp stamp) {
         OwnStamp ownStamp = new OwnStamp();
+        ownStamp.ownStampID = new OwnStampID(
+                stamp.getLocation(),
+                user.getId()
+        );
         ownStamp.setStamp(stamp);
         ownStamp.setUser(user);
         return ownStamp;

@@ -1,6 +1,7 @@
 package paldo_bottle.backend.DAO;
 
 import lombok.*;
+import paldo_bottle.backend.DAO.embedded.RegionID;
 import paldo_bottle.backend.DAO.identifier.RegionPK;
 
 import javax.persistence.*;
@@ -12,17 +13,18 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@IdClass(RegionPK.class)
 @Table(name = "region")
+//@IdClass(RegionPK.class)
 public class Region {
-
-    @Id
-    @Column(name = "supDistrict", length = 200, nullable = false)
-    private String supDistrict;
-
-    @Id
-    @Column(name = "district", length = 200, nullable = false)
-    private String district;
+//    @Id
+//    @Column(name = "supDistrict", length = 200, nullable = false)
+//    private String supDistrict;
+//
+//    @Id
+//    @Column(name = "district", length = 200, nullable = false)
+//    private String district;
+    @EmbeddedId
+    private RegionID location;
 
     @Column(name = "description")
     private String description;
@@ -35,8 +37,7 @@ public class Region {
 
     @Builder
     public Region(String supDistrict, String district, String description){
-        this.supDistrict = supDistrict;
-        this.district =district;
+        this.location = new RegionID(supDistrict, district);
         this.description = description;
     }
 
