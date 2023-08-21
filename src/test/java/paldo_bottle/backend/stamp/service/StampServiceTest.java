@@ -12,6 +12,7 @@ import paldo_bottle.backend.DAO.User;
 import paldo_bottle.backend.DTO.PublishStampDtoReq;
 import paldo_bottle.backend.DTO.PublishStampDtoRes;
 import paldo_bottle.backend.global.exception.BaseException;
+import paldo_bottle.backend.global.exception.BaseResponseStatus;
 import paldo_bottle.backend.region.repository.RegionRepository;
 import paldo_bottle.backend.stamp.repository.StampRepository;
 import paldo_bottle.backend.user.repository.UserRepository;
@@ -80,14 +81,34 @@ class StampServiceTest {
         String supDistrict = "서울시", district = "성북구", region_description = "근대";
         Long point = 10L;
         user_region_stamp_load(userId, supDistrict, district, region_description, point);
-        PublishStampDtoReq dto = new PublishStampDtoReq("서울", "성북구");
+        PublishStampDtoReq dto = new PublishStampDtoReq("서울시", "성북구");
 
 
-        Assertions.assertThrows(BaseException.class, () -> {
+        BaseException exception = Assertions.assertThrows(BaseException.class, () -> {
             // when
             this.stampService.publishStamp("testtest", dto);
         });
         //then
-        Assertions.fail("없는 유저 에러여야 합니다.");
+        Assertions.assertEquals(BaseResponseStatus.NOT_EXIST_USER, exception.getStatus());
+    }
+
+    @Test()
+    @Transactional
+    public void 사용자_도장_등록_스탬프없음() throws BaseException {
+        //given
+
+        String userId = "test";
+        String supDistrict = "서울시", district = "성북구", region_description = "근대";
+        Long point = 10L;
+        user_region_stamp_load(userId, supDistrict, district, region_description, point);
+        PublishStampDtoReq dto = new PublishStampDtoReq("인천광역시", "서구");
+
+
+        BaseException exception = Assertions.assertThrows(BaseException.class, () -> {
+            // when
+            this.stampService.publishStamp("test", dto);
+        });
+        //then
+        Assertions.assertEquals(BaseResponseStatus.NOT_EXIST_STAMP, exception.getStatus());
     }
 }
