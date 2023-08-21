@@ -53,7 +53,7 @@ class StampServiceTest {
             Assertions.assertEquals(district, res.getDistrict());
             Assertions.assertEquals(0, res.getPublishNumber());
         }catch (BaseException e) {
-            Assertions.fail(e.getStatus().getMessage());
+            Assertions.fail(e.getMessage());
             throw e;
         }
     }
@@ -89,7 +89,7 @@ class StampServiceTest {
             this.stampService.publishStamp("testtest", dto);
         });
         //then
-        Assertions.assertEquals(BaseResponseStatus.NOT_EXIST_USER, exception.getStatus());
+        Assertions.assertEquals(BaseResponseStatus.NOT_EXIST_USER.getMessage(), exception.getMessage());
     }
 
     @Test()
@@ -109,6 +109,6 @@ class StampServiceTest {
             this.stampService.publishStamp("test", dto);
         });
         //then
-        Assertions.assertEquals(BaseResponseStatus.NOT_EXIST_STAMP, exception.getStatus());
+        Assertions.assertEquals(BaseResponseStatus.NOT_EXIST_STAMP.getMessage(), exception.getMessage());
     }
 }
