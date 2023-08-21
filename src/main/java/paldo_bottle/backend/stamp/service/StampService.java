@@ -5,13 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import paldo_bottle.backend.DAO.OwnStamp;
-import paldo_bottle.backend.DAO.Region;
 import paldo_bottle.backend.DAO.Stamp;
 import paldo_bottle.backend.DAO.User;
 import paldo_bottle.backend.DAO.embedded.RegionID;
-import paldo_bottle.backend.DAO.identifier.RegionPK;
-import paldo_bottle.backend.DAO.identifier.StampPK;
-import paldo_bottle.backend.DTO.PublishStampDto;
+import paldo_bottle.backend.DTO.PublishStampDtoReq;
+import paldo_bottle.backend.DTO.PublishStampDtoRes;
 import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.global.exception.BaseResponseStatus;
 import paldo_bottle.backend.stamp.repository.StampRepository;
@@ -29,7 +27,7 @@ public class StampService {
     private final UserRepository userRepository;
 
     @Transactional
-    public OwnStamp publishStamp(String userId, PublishStampDto publishStampDto) throws BaseException {
+    public PublishStampDtoRes publishStamp(String userId, PublishStampDtoReq publishStampDtoReq) throws BaseException {
 
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty())
@@ -37,8 +35,8 @@ public class StampService {
         User user = optionalUser.get();
         Optional<Stamp> optionalStamp = stampRepository.findById(
                 new RegionID(
-                        publishStampDto.getSupDistrict(),
-                        publishStampDto.getDistrict()
+                        publishStampDtoReq.getSupDistrict(),
+                        publishStampDtoReq.getDistrict()
                 )
         );
         if (optionalStamp.isEmpty())
@@ -49,6 +47,12 @@ public class StampService {
         stamp.addOwner(ownStamp);
         userRepository.save(user);
         stampRepository.save(stamp);
-        return ownStamp;
+        return PublishStampDtoRes.builder()
+                .publishDate(ownStamp.getPublish_date())
+                .supDistrict(stamp.getRegion().getLocation().getSupDistrict())
+                .district(stamp.getRegion().getLocation().getDistrict())
+                .publishNumber(ownStamp.getPublish_number())
+                .build();
     }
+
 }

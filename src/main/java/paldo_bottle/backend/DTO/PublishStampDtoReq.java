@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class PublishStampDto {
+public class PublishStampDtoReq {
     private String supDistrict;
     private String district;
 }
