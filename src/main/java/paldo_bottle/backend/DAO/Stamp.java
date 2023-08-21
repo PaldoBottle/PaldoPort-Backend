@@ -32,13 +32,17 @@ public class Stamp {
 
     @Column()
     @ColumnDefault(value = "0")
-    private Long published;
+    private Long published = 0L;
 
     public Stamp(Long point) {
         this.point = point;
     }
 
     public void setRegion(Region region) {
+        this.location = new RegionID(
+            region.getLocation().getSupDistrict(),
+            region.getLocation().getDistrict()
+        );
         this.region = region;
     }
 
