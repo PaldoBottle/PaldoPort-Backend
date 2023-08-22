@@ -4,7 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import paldo_bottle.backend.DAO.identifier.OwnStampPK;
+import org.springframework.data.annotation.CreatedDate;
+import paldo_bottle.backend.DAO.embedded.OwnStampID;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,35 +15,49 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@IdClass(OwnStampPK.class)
 @Getter
 @Table(name="user_own_stamp")
 public class OwnStamp {
-    @Id
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="id")
-    private User userId;
+    @EmbeddedId
+    private OwnStampID ownStampID;
 
-    @Id
-    @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
-    private String supDistrict;
+    @ManyToOne
+    @MapsId("userId")
+    private User user;
 
-    @Id
-    @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
-    private String district;
-
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
-            @JoinColumn(name = "district", referencedColumnName = "district")
+            @JoinColumn(name = "supDistrict"),
+            @JoinColumn(name = "district")
     })
+    @MapsId("location")
     private Stamp stamp;
 
     @Column
+    @CreatedDate
     private LocalDateTime publish_date;
 
     @Column
     private Long publish_number;
 
+    public void setStamp(Stamp stamp) {
+        this.stamp = stamp;
+        this.publish_number = stamp.getPublished();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    static public OwnStamp createOwnStamp(User user, Stamp stamp) {
+        OwnStamp ownStamp = new OwnStamp();
+        ownStamp.ownStampID = new OwnStampID(
+                stamp.getLocation(),
+                user.getId()
+        );
+        ownStamp.setStamp(stamp);
+        ownStamp.setUser(user);
+        return ownStamp;
+    }
 }
 
