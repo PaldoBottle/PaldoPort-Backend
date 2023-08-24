@@ -8,6 +8,8 @@ import paldo_bottle.backend.DAO.OwnStamp;
 import paldo_bottle.backend.DAO.Stamp;
 import paldo_bottle.backend.DAO.User;
 import paldo_bottle.backend.DAO.embedded.RegionID;
+import paldo_bottle.backend.DTO.GetStampListReq;
+import paldo_bottle.backend.DTO.GetStampListResItem;
 import paldo_bottle.backend.DTO.PublishStampDtoReq;
 import paldo_bottle.backend.DTO.PublishStampDtoRes;
 import paldo_bottle.backend.global.exception.BaseException;
@@ -15,6 +17,7 @@ import paldo_bottle.backend.global.exception.BaseResponseStatus;
 import paldo_bottle.backend.stamp.repository.StampRepository;
 import paldo_bottle.backend.user.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -28,11 +31,7 @@ public class StampService {
 
     @Transactional
     public PublishStampDtoRes publishStamp(String userId, PublishStampDtoReq publishStampDtoReq) throws BaseException {
-
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty())
-            throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
-        User user = optionalUser.get();
+        User user = getUser(userId);
         Optional<Stamp> optionalStamp = stampRepository.findById(
                 new RegionID(
                         publishStampDtoReq.getSupDistrict(),
@@ -54,5 +53,16 @@ public class StampService {
                 .publishNumber(ownStamp.getPublish_number())
                 .build();
     }
+    public List<GetStampListResItem> getStampList(String userId, GetStampListReq req) {
 
+    }
+
+
+    private User getUser(String userId) throws BaseException {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty())
+            throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
+        User user = optionalUser.get();
+        return user;
+    }
 }
