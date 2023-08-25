@@ -19,6 +19,7 @@ import paldo_bottle.backend.user.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -53,8 +54,19 @@ public class StampService {
                 .publishNumber(ownStamp.getPublish_number())
                 .build();
     }
-    public List<GetStampListResItem> getStampList(String userId, GetStampListReq req) {
-
+    public List<GetStampListResItem> getStampList(String userId, GetStampListReq req) throws BaseException {
+        User user = getUser(userId);
+        List<Stamp> haveStamps = this.stampRepository.findAllWithUsers(userId);
+        List<Stamp> allStamps = this.stampRepository.findAll();
+        return allStamps.stream()
+                .map((stamp) -> {
+                return GetStampListResItem.builder()
+                        .supDistrict(stamp.getLocation().getSupDistrict())
+                        .district(stamp.getLocation().getDistrict())
+                        .have(haveStamps.contains(stamp))
+                        .build();
+                })
+                .collect(Collectors.toList());
     }
 
 
