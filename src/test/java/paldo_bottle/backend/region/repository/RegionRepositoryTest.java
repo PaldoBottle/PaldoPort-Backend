@@ -32,6 +32,6 @@ class RegionRepositoryTest {
         // when
         Region saveRegion = regionRepository.save(region);
         //then
-        Assertions.assertEquals(saveRegion.getSupDistrict(), region.getSupDistrict());
+        Assertions.assertEquals(saveRegion.getLocation().getDistrict(), region.getLocation().getDistrict());
     }
 }
