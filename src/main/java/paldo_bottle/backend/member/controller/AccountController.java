@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import paldo_bottle.backend.DTO.KakaoProfile;
-import paldo_bottle.backend.DTO.LoginDTO;
+import paldo_bottle.backend.DTO.account.KakaoProfile;
+import paldo_bottle.backend.DTO.account.LoginDTO;
 import paldo_bottle.backend.member.service.AccountService;
 
 @Controller

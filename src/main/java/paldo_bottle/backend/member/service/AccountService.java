@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import paldo_bottle.backend.DTO.KakaoProfile;
-import paldo_bottle.backend.DTO.TokenResponse;
+import paldo_bottle.backend.DTO.account.KakaoProfile;
+import paldo_bottle.backend.DTO.account.TokenResponse;
 import paldo_bottle.backend.member.repository.MemberRepository;
 
 import java.io.IOException;
