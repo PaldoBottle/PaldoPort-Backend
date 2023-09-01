@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import paldo_bottle.backend.DTO.GetLandmarkListRes;
 import paldo_bottle.backend.DTO.GetRegionDetailReq;
 import paldo_bottle.backend.DTO.GetRegionDetailRes;
@@ -29,9 +30,12 @@ public class RegionController {
     }
 
     @GetMapping("region/{supDistrict}/{district}/detail")
-    public ResponseEntity getRegionDetail(GetRegionDetailReq req) {
+    public ResponseEntity getRegionDetail(
+            @PathVariable("supDistrict") String supDistrict,
+            @PathVariable("district") String district)
+    {
         try {
-            GetRegionDetailRes regionDetail = regionService.getRegionDetail(req);
+            GetRegionDetailRes regionDetail = regionService.getRegionDetail(new GetRegionDetailReq(supDistrict, district));
             return new ResponseEntity(regionDetail, HttpStatus.OK);
         } catch (BaseException e) {
             return new ResponseEntity(e.getMessage(), e.getCode());
