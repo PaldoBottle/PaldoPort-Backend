@@ -25,8 +25,8 @@ public class RegionService {
                 .map((region) ->
                         region.getLandmarkList().stream()
                                 .map((landmark) -> new GetLandmarkListRes(
-                                        landmark.getSupDistrict(),
-                                        landmark.getDistrict(),
+                                        region.getLocation().getSupDistrict(),
+                                        region.getLocation().getDistrict(),
                                         landmark.getName(),
                                         landmark.getLongitude(),
                                         landmark.getLatitude()
