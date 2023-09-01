@@ -1,17 +1,19 @@
-package paldo_bottle.backend.DAO;
+package paldo_bottle.backend.DTO;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.lang.Nullable;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
 public class GetStampDetailRes {
-    private String name;
     private Long point;
-    private Date publishDate;
+
+    @Nullable
+    private LocalDateTime publishDate;
+    @Nullable
     private Long publishNumber;
-    private String description;
 }
