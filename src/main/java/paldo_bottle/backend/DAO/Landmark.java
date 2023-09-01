@@ -25,6 +25,13 @@ public class Landmark {
 
     @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
     private String district;
+
+    @Column(nullable = false)
+    private double longitude;
+
+    @Column(nullable = false)
+    private double latitude;
+
     //M:1 EntireLecture
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
