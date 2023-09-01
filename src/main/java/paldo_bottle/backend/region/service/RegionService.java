@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import paldo_bottle.backend.DAO.Region;
+import paldo_bottle.backend.DAO.embedded.RegionID;
+import paldo_bottle.backend.DTO.GetRegionDetailReq;
+import paldo_bottle.backend.DTO.GetRegionDetailRes;
 import paldo_bottle.backend.DTO.GetLandmarkListRes;
 import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.global.exception.BaseResponseStatus;
@@ -37,5 +40,13 @@ public class RegionService {
                 });
         if (result.isEmpty()) throw new BaseException(BaseResponseStatus.NOT_EXIST_LANDMARK);
         return result.get();
+    }
+
+    GetRegionDetailRes getRegionDetail(GetRegionDetailReq req) throws BaseException {
+        Optional<Region> optionalRegion = regionRepository.findById(new RegionID(req.getSupDistrict(), req.getDistrict()));
+        if (optionalRegion.isEmpty())
+            throw new BaseException(BaseResponseStatus.NOT_EXIST_REGION);
+        Region region = optionalRegion.get();
+        return new GetRegionDetailRes(region.getDescription());
     }
 };
