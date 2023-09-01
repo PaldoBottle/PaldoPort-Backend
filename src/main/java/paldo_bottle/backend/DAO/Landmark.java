@@ -9,7 +9,6 @@ import paldo_bottle.backend.DAO.identifier.LandmarkPK;
 import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Landmark {
@@ -18,13 +17,13 @@ public class Landmark {
     private String name;
 
     @Column(name = "description", nullable = false)
-    private String  description;
+    private String description;
 
-    @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
-    private String supDistrict;
+//    @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
+//    private String supDistrict;
 
-    @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
-    private String district;
+//    @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
+//    private String district;
 
     @Column(nullable = false)
     private double longitude;
@@ -40,6 +39,12 @@ public class Landmark {
     })
     private Region region;
 
+    public Landmark(String name, String description, double longitude, double latitude) {
+        this.name = name;
+        this.description = description;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
     public void setRegion(Region region) {
         this.region = region;
     }
