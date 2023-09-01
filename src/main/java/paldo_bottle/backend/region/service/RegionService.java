@@ -9,7 +9,6 @@ import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.global.exception.BaseResponseStatus;
 import paldo_bottle.backend.region.repository.RegionRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,4 +38,4 @@ public class RegionService {
         if (result.isEmpty()) throw new BaseException(BaseResponseStatus.NOT_EXIST_LANDMARK);
         return result.get();
     }
-}g
+};
