@@ -32,5 +32,9 @@ public class Landmark {
             @JoinColumn(name = "district", referencedColumnName = "district")
     })
     private Region region;
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 }
 
