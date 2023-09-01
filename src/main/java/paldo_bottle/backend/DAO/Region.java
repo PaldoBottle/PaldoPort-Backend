@@ -36,4 +36,9 @@ public class Region {
     public void setStamp(Stamp stamp) {
         this.stamp = stamp;
     }
+
+    public void addLandmark(Landmark landmark) {
+        landmark.setRegion(this);
+        this.landmarkList.add(landmark);
+    }
 }
