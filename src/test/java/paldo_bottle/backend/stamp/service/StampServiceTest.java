@@ -9,10 +9,7 @@ import paldo_bottle.backend.DAO.OwnStamp;
 import paldo_bottle.backend.DAO.Region;
 import paldo_bottle.backend.DAO.Stamp;
 import paldo_bottle.backend.DAO.User;
-import paldo_bottle.backend.DTO.GetStampListReq;
-import paldo_bottle.backend.DTO.GetStampListResItem;
-import paldo_bottle.backend.DTO.PublishStampDtoReq;
-import paldo_bottle.backend.DTO.PublishStampDtoRes;
+import paldo_bottle.backend.DTO.*;
 import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.global.exception.BaseResponseStatus;
 import paldo_bottle.backend.region.repository.RegionRepository;
@@ -140,6 +137,68 @@ class StampServiceTest {
         });
     }
 
+    @Test
+    public void 스탬프_디테일_정보_가져오기() throws BaseException {
+        //given
+        User user = new User("test");
+        userRepository.save(user);
+        ArrayList<Stamp> stamps = new ArrayList<>();
+        ArrayList<String>   supDistricts = new ArrayList<>();
+        ArrayList<String>   districts = new ArrayList<>();
+        ArrayList<Long>  points = new ArrayList<>();
+        supDistricts.add("서울시");
+        supDistricts.add("서울시");
+        supDistricts.add("서울시");
+        districts.add("강남구");
+        districts.add("성북구");
+        districts.add("중구");
+        points.add(10L);
+        points.add(10L);
+        points.add(10L);
+        for (int i = 0 ; i < 3 ; i++) {
+            Region region_stamp = create_region_stamp(supDistricts.get(i), districts.get(i), "", points.get(i));
+            Region saveRegion = regionRepository.save(region_stamp);
+            stamps.add(saveRegion.getStamp());
+        }
+        this.stampService.publishStamp(user.getId(), new PublishStampDtoReq(supDistricts.get(0), districts.get(0)));
+        this.stampService.publishStamp(user.getId(), new PublishStampDtoReq(supDistricts.get(2), districts.get(2)));
+        // when
+        GetStampDetailRes stampDetail = this.stampService.getStampDetail("test", "서울시", "강남구");
+        //then
+        Assertions.assertEquals(stampDetail.getPoint(), 10L);
+    }
+
+    @Test
+    public void 스탬프_디테일_정보_가져오기_없음() throws BaseException {
+        //given
+        User user = new User("test");
+        userRepository.save(user);
+        ArrayList<Stamp> stamps = new ArrayList<>();
+        ArrayList<String>   supDistricts = new ArrayList<>();
+        ArrayList<String>   districts = new ArrayList<>();
+        ArrayList<Long>  points = new ArrayList<>();
+        supDistricts.add("서울시");
+        supDistricts.add("서울시");
+        supDistricts.add("서울시");
+        districts.add("강남구");
+        districts.add("성북구");
+        districts.add("중구");
+        points.add(10L);
+        points.add(10L);
+        points.add(10L);
+        for (int i = 0 ; i < 3 ; i++) {
+            Region region_stamp = create_region_stamp(supDistricts.get(i), districts.get(i), "", points.get(i));
+            Region saveRegion = regionRepository.save(region_stamp);
+            stamps.add(saveRegion.getStamp());
+        }
+        this.stampService.publishStamp(user.getId(), new PublishStampDtoReq(supDistricts.get(0), districts.get(0)));
+        this.stampService.publishStamp(user.getId(), new PublishStampDtoReq(supDistricts.get(2), districts.get(2)));
+        // when
+        GetStampDetailRes stampDetail = this.stampService.getStampDetail("test", "서울시", "성북구");
+        //then
+        Assertions.assertEquals(stampDetail.getPoint(), 10L);
+        Assertions.assertEquals(stampDetail.getPublishDate(), null);
+    }
 
     private void user_region_stamp_load(String userId, String supDistrict, String district, String region_description
             , Long point) {
