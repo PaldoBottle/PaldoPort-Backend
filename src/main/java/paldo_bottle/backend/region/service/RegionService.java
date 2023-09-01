@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class RegionService {
     private final RegionRepository regionRepository;
 
-    List<GetLandmarkListRes> getLandmarkList() throws BaseException{
+    public List<GetLandmarkListRes> getLandmarkList() throws BaseException{
         List<Region> regions = regionRepository.findAll();
         Optional<List<GetLandmarkListRes>> result = regions.stream()
                 .map((region) ->
@@ -42,7 +42,7 @@ public class RegionService {
         return result.get();
     }
 
-    GetRegionDetailRes getRegionDetail(GetRegionDetailReq req) throws BaseException {
+    public GetRegionDetailRes getRegionDetail(GetRegionDetailReq req) throws BaseException {
         Optional<Region> optionalRegion = regionRepository.findById(new RegionID(req.getSupDistrict(), req.getDistrict()));
         if (optionalRegion.isEmpty())
             throw new BaseException(BaseResponseStatus.NOT_EXIST_REGION);
