@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import paldo_bottle.backend.DTO.GetStampDetailRes;
 import paldo_bottle.backend.DAO.OwnStamp;
 import paldo_bottle.backend.DAO.Stamp;
 import paldo_bottle.backend.DAO.User;
@@ -67,6 +68,31 @@ public class StampService {
                         .build();
                 })
                 .collect(Collectors.toList());
+    }
+
+    public GetStampDetailRes getStampDetail(String userId, String supDistrict, String district) throws BaseException {
+        User user = getUser(userId);
+        Optional<OwnStamp> userStamp = user.getOwnStamps()
+                .stream()
+                .filter((ownStamp -> {
+                    RegionID location = ownStamp.getOwnStampID().getLocation();
+                    return (location.getDistrict() == district && location.getSupDistrict() == supDistrict);
+                }))
+                .findFirst();
+        if (userStamp.isPresent()) {
+            OwnStamp ownStamp = userStamp.get();
+            return new GetStampDetailRes(
+                    ownStamp.getStamp().getPoint(),
+                    ownStamp.getPublish_date(),
+                    ownStamp.getPublish_number()
+            );
+        }
+        Optional<Stamp> optionalStamp = stampRepository.findById(new RegionID(supDistrict, district));
+        if (optionalStamp.isEmpty()) throw new BaseException(BaseResponseStatus.NOT_EXIST_STAMP);
+        Stamp stamp = optionalStamp.get();
+        return new GetStampDetailRes(
+                stamp.getPoint(), null, null
+        );
     }
 
 
