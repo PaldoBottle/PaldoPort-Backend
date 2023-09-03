@@ -18,6 +18,8 @@ import paldo_bottle.backend.DTO.PublishStampDtoRes;
 import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.stamp.service.StampService;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @Tags(value = {
@@ -39,6 +41,30 @@ public class StampUserController {
             return new ResponseEntity<>(publishStampDtoRes, HttpStatus.OK);
         } catch (BaseException exception) {
             return new ResponseEntity<>(exception.getMessage(), exception.getCode());
+        }
+    }
+
+    @GetMapping("/stamp/user/list")
+    public ResponseEntity getStampList(String userId) {
+        try{
+            List<GetStampListResItem> stampList = this.stampService.getStampList(userId, new GetStampListReq());
+            return new ResponseEntity(stampList, HttpStatus.OK);
+        } catch (BaseException e) {
+            return new ResponseEntity(e.getMessage(), e.getCode());
+        }
+    }
+
+    @GetMapping("/stamp/{supDistrict}/{district}/detail")
+    public ResponseEntity getStampDetail(
+            @PathVariable("supDistrict") String supDistrict,
+            @PathVariable("district") String district,
+            String userId
+    ) {
+        try {
+            GetStampDetailRes stampDetail = this.stampService.getStampDetail(userId, supDistrict, district);
+            return new ResponseEntity(stampDetail, HttpStatus.OK);
+        } catch (BaseException e) {
+            return new ResponseEntity(e.getMessage(), e.getCode());
         }
     }
 }
