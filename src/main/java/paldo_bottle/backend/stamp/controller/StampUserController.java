@@ -12,9 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import paldo_bottle.backend.DTO.GetRegionDetailRes;
-import paldo_bottle.backend.DTO.PublishStampDtoReq;
-import paldo_bottle.backend.DTO.PublishStampDtoRes;
+import org.springframework.web.bind.annotation.PathVariable;
+import paldo_bottle.backend.DTO.*;
 import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.stamp.service.StampService;
 
