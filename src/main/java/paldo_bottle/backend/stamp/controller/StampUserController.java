@@ -12,9 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import paldo_bottle.backend.DTO.GetRegionDetailRes;
-import paldo_bottle.backend.DTO.PublishStampDtoReq;
-import paldo_bottle.backend.DTO.PublishStampDtoRes;
+import org.springframework.web.bind.annotation.PathVariable;
+import paldo_bottle.backend.DTO.*;
 import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.stamp.service.StampService;
 
@@ -45,6 +44,11 @@ public class StampUserController {
     }
 
     @GetMapping("/stamp/user/list")
+    @Operation(summary = "유저의 스탬프 목록", description = "유저 보유 유무를 포함한 스탬프 목록을 가져옵니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = GetStampListResItem.class))),
+            @ApiResponse(responseCode = "404", description = "리소스가 없습니다.", content = @Content(schema = @Schema(implementation = String.class)))
+    })
     public ResponseEntity getStampList(String userId) {
         try{
             List<GetStampListResItem> stampList = this.stampService.getStampList(userId, new GetStampListReq());
@@ -55,6 +59,11 @@ public class StampUserController {
     }
 
     @GetMapping("/stamp/{supDistrict}/{district}/detail")
+    @Operation(summary = "스탬프 세부정보", description = "랜드마크 세부정보를 불러옵니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = GetStampDetailRes.class))),
+            @ApiResponse(responseCode = "404", description = "리소스가 없습니다." , content = @Content(schema = @Schema(implementation = String.class)))
+    })
     public ResponseEntity getStampDetail(
             @PathVariable("supDistrict") String supDistrict,
             @PathVariable("district") String district,
