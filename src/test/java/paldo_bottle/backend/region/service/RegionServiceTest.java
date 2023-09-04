@@ -10,12 +10,11 @@ import paldo_bottle.backend.DAO.Region;
 import paldo_bottle.backend.DTO.GetLandmarkListRes;
 import paldo_bottle.backend.DTO.GetRegionDetailReq;
 import paldo_bottle.backend.DTO.GetRegionDetailRes;
+import paldo_bottle.backend.domain.region.service.RegionService;
 import paldo_bottle.backend.global.exception.BaseException;
-import paldo_bottle.backend.region.repository.RegionRepository;
+import paldo_bottle.backend.domain.region.repository.RegionRepository;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class RegionServiceTest {

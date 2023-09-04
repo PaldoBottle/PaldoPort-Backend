@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import paldo_bottle.backend.DAO.Region;
 import paldo_bottle.backend.DAO.Stamp;
+import paldo_bottle.backend.domain.region.repository.RegionRepository;
 
 @SpringBootTest
 @Transactional

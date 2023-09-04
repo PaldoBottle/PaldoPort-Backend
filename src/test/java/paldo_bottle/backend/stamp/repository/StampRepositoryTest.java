@@ -8,25 +8,23 @@ import paldo_bottle.backend.DAO.Region;
 import paldo_bottle.backend.DAO.Stamp;
 import paldo_bottle.backend.DAO.User;
 import paldo_bottle.backend.DTO.PublishStampDtoReq;
-import paldo_bottle.backend.region.repository.RegionRepository;
-import paldo_bottle.backend.stamp.service.StampService;
-import paldo_bottle.backend.user.repository.UserRepository;
-
+import paldo_bottle.backend.domain.member.repository.MemberRepository;
+import paldo_bottle.backend.domain.region.repository.RegionRepository;
+import paldo_bottle.backend.domain.stamp.repository.StampRepository;
+import paldo_bottle.backend.domain.stamp.service.StampService;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class StampRepositoryTest {
     private final StampRepository stampRepository;
     private final StampService stampService;
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
     private final RegionRepository regionRepository;
 
     @Autowired
     StampRepositoryTest(StampRepository stampRepository,
-                        UserRepository userRepository,
+                        MemberRepository userRepository,
                         RegionRepository regionRepository,
                         StampService stampService) {
         this.stampRepository = stampRepository;

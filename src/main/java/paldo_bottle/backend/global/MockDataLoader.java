@@ -9,9 +9,9 @@ import paldo_bottle.backend.DAO.Landmark;
 import paldo_bottle.backend.DAO.Region;
 import paldo_bottle.backend.DAO.Stamp;
 import paldo_bottle.backend.DAO.User;
-import paldo_bottle.backend.region.repository.RegionRepository;
-import paldo_bottle.backend.stamp.repository.StampRepository;
-import paldo_bottle.backend.user.repository.UserRepository;
+import paldo_bottle.backend.domain.member.repository.MemberRepository;
+import paldo_bottle.backend.domain.region.repository.RegionRepository;
+import paldo_bottle.backend.domain.stamp.repository.StampRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 public class MockDataLoader implements ApplicationRunner {
     private final RegionRepository regionRepository;
     private final StampRepository stampRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
 
 
 
