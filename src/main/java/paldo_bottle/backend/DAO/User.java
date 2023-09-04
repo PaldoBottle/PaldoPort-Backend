@@ -17,7 +17,6 @@ import java.util.List;
 public class User {
 
     @Id
-//    @GeneratedValue
     private String id;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
@@ -28,13 +27,18 @@ public class User {
 
     @Column
     private Long point;
+
     @Column
-    private String address;
+    private String profileImg;
 
     public User(String id) {
         this.id = id;
         this.point = 0L;
-        this.address = "";
+    }
+
+    public User(String user_id, String user_profile_image) {
+        this.id = user_id;
+        this.profileImg = user_profile_image;
     }
 
     public void addStamps(OwnStamp ownStamp) {
