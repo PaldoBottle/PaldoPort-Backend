@@ -44,7 +44,8 @@ class StampServiceTest {
             String userId = "test";
             String supDistrict = "서울시", district = "성북구", region_description = "근대";
             Long point = 10L;
-            user_region_stamp_load(userId, supDistrict, district, region_description, point);
+            user_region_stamp_load(userId, supDistrict, district, region_description, point,
+                    "https://s3.console.aws.amazon.com/s3/object/stampimage?region=ap-northeast-2&prefix=Chungcheongbuk-do_Buyeo-gun.png");
 
             PublishStampDtoReq dto = new PublishStampDtoReq(supDistrict, district);
             // when
@@ -70,7 +71,8 @@ class StampServiceTest {
         String userId = "test";
         String supDistrict = "서울시", district = "성북구", region_description = "근대";
         Long point = 10L;
-        user_region_stamp_load(userId, supDistrict, district, region_description, point);
+        user_region_stamp_load(userId, supDistrict, district, region_description, point,
+                "https://s3.console.aws.amazon.com/s3/object/stampimage?region=ap-northeast-2&prefix=Chungcheongbuk-do_Buyeo-gun.png");
         PublishStampDtoReq dto = new PublishStampDtoReq("서울시", "성북구");
 
 
@@ -90,7 +92,8 @@ class StampServiceTest {
         String userId = "test";
         String supDistrict = "서울시", district = "성북구", region_description = "근대";
         Long point = 10L;
-        user_region_stamp_load(userId, supDistrict, district, region_description, point);
+        user_region_stamp_load(userId, supDistrict, district, region_description, point,
+                "https://s3.console.aws.amazon.com/s3/object/stampimage?region=ap-northeast-2&prefix=Chungcheongbuk-do_Buyeo-gun.png");
         PublishStampDtoReq dto = new PublishStampDtoReq("인천광역시", "서구");
 
 
@@ -112,17 +115,13 @@ class StampServiceTest {
         ArrayList<String>   supDistricts = new ArrayList<>();
         ArrayList<String>   districts = new ArrayList<>();
         ArrayList<Long>  points = new ArrayList<>();
-        supDistricts.add("서울시");
-        supDistricts.add("서울시");
-        supDistricts.add("서울시");
-        districts.add("강남구");
-        districts.add("성북구");
-        districts.add("중구");
-        points.add(10L);
-        points.add(10L);
-        points.add(10L);
+        ArrayList<String>   images = new ArrayList<>();
+
+        loadMockData(supDistricts, districts, points, images);
+
         for (int i = 0 ; i < 3 ; i++) {
-            Region region_stamp = create_region_stamp(supDistricts.get(i), districts.get(i), "", points.get(i));
+            Region region_stamp = create_region_stamp(supDistricts.get(i), districts.get(i), "",
+                    points.get(i), images.get(i));
             Region saveRegion = regionRepository.save(region_stamp);
             stamps.add(saveRegion.getStamp());
         }
@@ -137,15 +136,7 @@ class StampServiceTest {
         });
     }
 
-    @Test
-    public void 스탬프_디테일_정보_가져오기() throws BaseException {
-        //given
-        User user = new User("test");
-        userRepository.save(user);
-        ArrayList<Stamp> stamps = new ArrayList<>();
-        ArrayList<String>   supDistricts = new ArrayList<>();
-        ArrayList<String>   districts = new ArrayList<>();
-        ArrayList<Long>  points = new ArrayList<>();
+    private static void loadMockData(ArrayList<String> supDistricts, ArrayList<String> districts, ArrayList<Long> points, ArrayList<String> images) {
         supDistricts.add("서울시");
         supDistricts.add("서울시");
         supDistricts.add("서울시");
@@ -155,8 +146,27 @@ class StampServiceTest {
         points.add(10L);
         points.add(10L);
         points.add(10L);
+        images.add("https://stampimage.s3.ap-northeast-2.amazonaws.com/Chungcheongbuk-do_Buyeo-gun.png");
+        images.add("https://stampimage.s3.ap-northeast-2.amazonaws.com/Chungcheongnam-do_Jecheon-si.png");
+        images.add("https://stampimage.s3.ap-northeast-2.amazonaws.com/Gangwon-do_Cheorwon-gun.png");
+    }
+
+    @Test
+    public void 스탬프_디테일_정보_가져오기() throws BaseException {
+        //given
+        User user = new User("test");
+        userRepository.save(user);
+        ArrayList<Stamp> stamps = new ArrayList<>();
+        ArrayList<String>   supDistricts = new ArrayList<>();
+        ArrayList<String>   districts = new ArrayList<>();
+        ArrayList<Long>  points = new ArrayList<>();
+        ArrayList<String>   images = new ArrayList<>();
+
+        loadMockData(supDistricts, districts, points, images);
+
         for (int i = 0 ; i < 3 ; i++) {
-            Region region_stamp = create_region_stamp(supDistricts.get(i), districts.get(i), "", points.get(i));
+            Region region_stamp = create_region_stamp(supDistricts.get(i), districts.get(i), "",
+                    points.get(i), images.get(i));
             Region saveRegion = regionRepository.save(region_stamp);
             stamps.add(saveRegion.getStamp());
         }
@@ -177,17 +187,11 @@ class StampServiceTest {
         ArrayList<String>   supDistricts = new ArrayList<>();
         ArrayList<String>   districts = new ArrayList<>();
         ArrayList<Long>  points = new ArrayList<>();
-        supDistricts.add("서울시");
-        supDistricts.add("서울시");
-        supDistricts.add("서울시");
-        districts.add("강남구");
-        districts.add("성북구");
-        districts.add("중구");
-        points.add(10L);
-        points.add(10L);
-        points.add(10L);
+        ArrayList<String>   images = new ArrayList<>();
+
+        loadMockData(supDistricts, districts, points, images);
         for (int i = 0 ; i < 3 ; i++) {
-            Region region_stamp = create_region_stamp(supDistricts.get(i), districts.get(i), "", points.get(i));
+            Region region_stamp = create_region_stamp(supDistricts.get(i), districts.get(i), "", points.get(i), images.get(i));
             Region saveRegion = regionRepository.save(region_stamp);
             stamps.add(saveRegion.getStamp());
         }
@@ -201,13 +205,13 @@ class StampServiceTest {
     }
 
     private void user_region_stamp_load(String userId, String supDistrict, String district, String region_description
-            , Long point) {
+            , Long point, String imageUrl) {
         Region region = Region.builder()
                 .supDistrict(supDistrict)
                 .district(district)
                 .description(region_description)
                 .build();
-        Stamp stamp = new Stamp(point);
+        Stamp stamp = new Stamp(point, imageUrl);
         stamp.setRegion(region);
         region.setStamp(stamp);
         userRepository.save(new User(userId));
@@ -215,13 +219,13 @@ class StampServiceTest {
     }
 
     private Region create_region_stamp(String supDistrict, String district, String region_description
-            , Long point) {
+            , Long point, String stampImageUrl) {
         Region region = Region.builder()
                 .supDistrict(supDistrict)
                 .district(district)
                 .description(region_description)
                 .build();
-        Stamp stamp = new Stamp(point);
+        Stamp stamp = new Stamp(point, stampImageUrl);
         stamp.setRegion(region);
         region.setStamp(stamp);
         return region;

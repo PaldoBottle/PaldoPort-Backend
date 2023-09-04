@@ -49,6 +49,7 @@ public class StampService {
         userRepository.save(user);
         stampRepository.save(stamp);
         return PublishStampDtoRes.builder()
+                .imageUrl(stamp.getImageUrl())
                 .publishDate(ownStamp.getPublish_date())
                 .supDistrict(stamp.getRegion().getLocation().getSupDistrict())
                 .district(stamp.getRegion().getLocation().getDistrict())
@@ -62,6 +63,7 @@ public class StampService {
         return allStamps.stream()
                 .map((stamp) -> {
                 return GetStampListResItem.builder()
+                        .imageUrl(stamp.getImageUrl())
                         .supDistrict(stamp.getLocation().getSupDistrict())
                         .district(stamp.getLocation().getDistrict())
                         .have(haveStamps.contains(stamp))
@@ -82,6 +84,7 @@ public class StampService {
         if (userStamp.isPresent()) {
             OwnStamp ownStamp = userStamp.get();
             return new GetStampDetailRes(
+                    ownStamp.getStamp().getImageUrl(),
                     ownStamp.getStamp().getPoint(),
                     ownStamp.getPublish_date(),
                     ownStamp.getPublish_number()
@@ -91,7 +94,7 @@ public class StampService {
         if (optionalStamp.isEmpty()) throw new BaseException(BaseResponseStatus.NOT_EXIST_STAMP);
         Stamp stamp = optionalStamp.get();
         return new GetStampDetailRes(
-                stamp.getPoint(), null, null
+                stamp.getImageUrl(), stamp.getPoint(), null, null
         );
     }
 

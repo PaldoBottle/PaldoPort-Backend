@@ -79,7 +79,7 @@ class StampRepositoryTest {
                 .district(district)
                 .description(region_description)
                 .build();
-        Stamp stamp = new Stamp(point);
+        Stamp stamp = new Stamp(point, "");
         stamp.setRegion(region);
         region.setStamp(stamp);
         return region;

@@ -27,6 +27,9 @@ public class Stamp {
     @Column(name = "point")
     private Long point;
 
+    @Column
+    private String imageUrl;
+
     @OneToMany(mappedBy = "stamp")
     private List<OwnStamp> owners = new ArrayList<>();
 
@@ -34,7 +37,8 @@ public class Stamp {
     @ColumnDefault(value = "0")
     private Long published = 0L;
 
-    public Stamp(Long point) {
+    public Stamp(Long point, String imageUrl) {
+        this.imageUrl = imageUrl;
         this.point = point;
     }
 

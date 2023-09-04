@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class PublishStampDtoRes {
+    private String imageUrl;
     private String supDistrict;
     private String district;
     private LocalDateTime publishDate;

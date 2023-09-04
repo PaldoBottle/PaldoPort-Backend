@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 public class GetStampDetailRes {
+    private String imageUrl;
     private Long point;
 
     @Nullable

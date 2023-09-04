@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class GetStampListResItem {
+    private String  imageUrl;
     private String  supDistrict;
     private String  district;
     private Boolean have;
