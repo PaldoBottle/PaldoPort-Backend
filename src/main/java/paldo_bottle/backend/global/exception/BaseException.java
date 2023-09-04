@@ -12,4 +12,5 @@ public class BaseException extends Exception{
         super(status.getMessage());
         this.code = status.getCode();
     }
+
 }
