@@ -60,7 +60,7 @@ public class StampUserController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = GetStampListResItem.class))),
             @ApiResponse(responseCode = "404", description = "리소스가 없습니다.", content = @Content(schema = @Schema(implementation = String.class)))
     })
-    public ResponseEntity getStampList(@PathVariable Map<String, String> requestBody) {
+    public ResponseEntity getStampList(@RequestBody Map<String, String> requestBody) {
         try{
             String userId = jwtService.doFilterInternal(requestBody.get("authToken"));
             List<GetStampListResItem> stampList = this.stampService.getStampList(userId, new GetStampListReq());
