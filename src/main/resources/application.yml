@@ -9,8 +9,6 @@ spring:
     password: ${db.password}
     url: ${db.url}
     username: ${db.user}
-  mvc:
-    static-path-pattern=/static/**:
   jpa:
     hibernate:
 #      naming:
