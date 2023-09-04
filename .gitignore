@@ -36,3 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 src/main/resources/dbsettings.properties
+src/main/resources/jwtsettings.yml
+src/main/resources/kaaSettings
