@@ -33,7 +33,7 @@ public class MockDataLoader implements ApplicationRunner {
     }
 
     private void loadUser() {
-        User user = new User("test");
+        User user = new User("paldomaster");
         userRepository.save(user);
     }
 
