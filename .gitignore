@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 src/main/resources/dbsettings.properties
+src/main/resources/jwtsettings
+src/main/resources/kakaosettings
+
