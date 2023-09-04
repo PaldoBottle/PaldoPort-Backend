@@ -4,9 +4,9 @@ import lombok.Data;
 import paldo_bottle.backend.DAO.User;
 
 @Data
-public class LoginDTO {
+public class LoginParam {
     private String accessToken;
     private User user;
 
-    public LoginDTO() {}
+    public LoginParam() {}
 }
