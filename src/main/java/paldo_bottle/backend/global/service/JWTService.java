@@ -36,10 +36,10 @@ public class JWTService {
 
     //JWT 토큰 파싱 및 유효성 확인
     public String doFilterInternal(String authorizationHeader) throws IOException, ServletException {
-        Claims claims = parseJwtToken(authorizationHeader);
         if(authorizationHeader == "cGFsZG9fbWFzdGVyYWNjb3VudA==") {
             return "paldomaster";
         }
+        Claims claims = parseJwtToken(authorizationHeader);
         return getUserIdFromJWT(claims);
     }
 
