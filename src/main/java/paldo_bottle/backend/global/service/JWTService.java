@@ -7,15 +7,13 @@ import java.util.Date;
 
 import javax.servlet.ServletException;
 
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
+@Slf4j
 @Service
 public class JWTService {
     @Value("${jwt.ISSUR}")
@@ -36,7 +34,8 @@ public class JWTService {
 
     //JWT 토큰 파싱 및 유효성 확인
     public String doFilterInternal(String authorizationHeader) throws IOException, ServletException {
-        if(authorizationHeader == "cGFsZG9fbWFzdGVyYWNjb3VudA==") {
+        if(authorizationHeader.equals("cGFsZG9fbWFzdGVyYWNjb3VudA==")) {
+            log.warn("paldomaster");
             return "paldomaster";
         }
         Claims claims = parseJwtToken(authorizationHeader);
@@ -63,7 +62,7 @@ public class JWTService {
 
     private void validationAuthorizationHeader(String header) {
         if (header == null || !header.startsWith("Bearer ")) {
-            throw new IllegalArgumentException();
+            throw new ExpiredJwtException(null, null, "ExpiredJwtException");
         }
     }
 

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import paldo_bottle.backend.DTO.*;
 import paldo_bottle.backend.domain.stamp.service.StampService;
 import paldo_bottle.backend.global.exception.BaseException;
@@ -23,6 +24,7 @@ import paldo_bottle.backend.global.service.JWTService;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -41,9 +43,9 @@ public class StampUserController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = PublishStampDtoRes.class))),
             @ApiResponse(responseCode = "404", description = "리소스가 없습니다.", content = @Content(schema = @Schema(implementation = String.class)))
     })
-    public ResponseEntity publishStamp(@PathVariable String authToken, PublishStampDtoReq dtoReq) {
+    public ResponseEntity publishStamp(@RequestBody Map<String, String> requestBody, PublishStampDtoReq dtoReq) {
         try {
-            String userId = jwtService.doFilterInternal(authToken);
+            String userId = jwtService.doFilterInternal(requestBody.get("authToken"));
             PublishStampDtoRes publishStampDtoRes = this.stampService.publishStamp(userId, dtoReq);
             return new ResponseEntity<>(publishStampDtoRes, HttpStatus.OK);
         } catch (ExpiredJwtException | ServletException | IOException exception) {
@@ -60,9 +62,9 @@ public class StampUserController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = GetStampListResItem.class))),
             @ApiResponse(responseCode = "404", description = "리소스가 없습니다.", content = @Content(schema = @Schema(implementation = String.class)))
     })
-    public ResponseEntity getStampList(@PathVariable String authToken) {
+    public ResponseEntity getStampList(@RequestBody Map<String, String> requestBody) {
         try{
-            String userId = jwtService.doFilterInternal(authToken);
+            String userId = jwtService.doFilterInternal(requestBody.get("authToken"));
             List<GetStampListResItem> stampList = this.stampService.getStampList(userId, new GetStampListReq());
             return new ResponseEntity(stampList, HttpStatus.OK);
         } catch (ExpiredJwtException | ServletException | IOException exception) {
@@ -82,10 +84,10 @@ public class StampUserController {
     public ResponseEntity getStampDetail(
             @PathVariable("supDistrict") String supDistrict,
             @PathVariable("district") String district,
-            @PathVariable String authToken
+            @RequestBody Map<String, String> requestBody
     ) {
         try {
-            String userId = jwtService.doFilterInternal(authToken);
+            String userId = jwtService.doFilterInternal(requestBody.get("authToken"));
             GetStampDetailRes stampDetail = this.stampService.getStampDetail(userId, supDistrict, district);
             return new ResponseEntity(stampDetail, HttpStatus.OK);
         }  catch (ExpiredJwtException | ServletException | IOException exception) {

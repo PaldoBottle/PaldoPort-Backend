@@ -14,6 +14,7 @@ import paldo_bottle.backend.global.service.JWTService;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -26,10 +27,11 @@ public class MemberController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity getMemberInfo(@PathVariable String authToken) {
+    public ResponseEntity getMemberInfo(@RequestBody Map<String, String> requestBody) {
         MemberInfo memberInfo;
         try {
-            String user_Id = jwtService.doFilterInternal(authToken);
+            String user_Id = jwtService.doFilterInternal(requestBody.get("authToken"));
+            log.error("user_Id = {}", user_Id);
             memberInfo = memberService.getMember(user_Id);
         } catch (ExpiredJwtException | ServletException | IOException exception) {
             log.warn(exception.getMessage(), exception);

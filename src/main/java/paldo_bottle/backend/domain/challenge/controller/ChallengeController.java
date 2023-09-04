@@ -16,6 +16,7 @@ import paldo_bottle.backend.global.service.JWTService;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -29,11 +30,11 @@ public class ChallengeController {
     //달성한 도전과제 목록 요청
     @PostMapping("/achieve")
     @ResponseBody
-    public ResponseEntity getAchievedChallengeList(@PathVariable String authToken) {
+    public ResponseEntity getAchievedChallengeList(@RequestBody Map<String, String> requestBody) {
         List<AchievedChallengeParam> challengeList;
 
         try {
-            String user_Id = jwtService.doFilterInternal(authToken);
+            String user_Id = jwtService.doFilterInternal(requestBody.get("authToken"));
             challengeList = challengeService.getAchievedChallenge(user_Id);
         } catch (ExpiredJwtException | ServletException | IOException exception) {
             log.warn(exception.getMessage(), exception);
@@ -48,11 +49,11 @@ public class ChallengeController {
     //도전과제 목록 요청
     @PostMapping("/list")
     @ResponseBody
-    public ResponseEntity getChallengeList(@RequestBody String authToken) {
+    public ResponseEntity getChallengeList(@RequestBody Map<String, String> requestBody) {
         List<AllChallengeParam> challengeList;
 
         try {
-            String user_Id = jwtService.doFilterInternal(authToken);
+            String user_Id = jwtService.doFilterInternal(requestBody.get("authToken"));
             challengeList = challengeService.getAllChallenge(user_Id);
         }
         catch (BaseException exception) {
