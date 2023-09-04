@@ -17,8 +17,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JWTService {
-    @Value("${PALDOJWT.ISSUER_SECRET}")
-    private String Issuer;
+//    @Value("${PALDOJWT.ISSUER_SECRET}")
+    private String Issuer = "paldo_lavin";
 
     //JWT 생성
     public String makeJwtToken(String userId) {

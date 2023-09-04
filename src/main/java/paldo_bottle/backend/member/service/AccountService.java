@@ -12,19 +12,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import paldo_bottle.backend.DTO.account.*;
-import paldo_bottle.backend.member.repository.MemberRepository;
-
 import java.io.IOException;
 
 @Slf4j
 @Service
 public class AccountService {
 
-    private final MemberRepository repository;
-
-    public AccountService(MemberRepository repository) {
-        this.repository = repository;
-    }
 
     // 카카오 인증을 위한 키값 가져오기
     @Value("${kakao.REST_API_KEY}")
