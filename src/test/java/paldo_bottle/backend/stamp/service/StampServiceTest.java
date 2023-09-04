@@ -5,30 +5,29 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import paldo_bottle.backend.DAO.OwnStamp;
 import paldo_bottle.backend.DAO.Region;
 import paldo_bottle.backend.DAO.Stamp;
 import paldo_bottle.backend.DAO.User;
 import paldo_bottle.backend.DTO.*;
+import paldo_bottle.backend.domain.member.repository.MemberRepository;
+import paldo_bottle.backend.domain.stamp.service.StampService;
 import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.global.exception.BaseResponseStatus;
-import paldo_bottle.backend.region.repository.RegionRepository;
-import paldo_bottle.backend.stamp.repository.StampRepository;
-import paldo_bottle.backend.user.repository.UserRepository;
+import paldo_bottle.backend.domain.region.repository.RegionRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
 class StampServiceTest {
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
     private final RegionRepository regionRepository;
 
     private final StampService stampService;
 
     @Autowired
     StampServiceTest(StampService stampService,
-                     UserRepository userRepository,
+                     MemberRepository userRepository,
                      RegionRepository regionRepository) {
         this.userRepository = userRepository;
         this.regionRepository = regionRepository;
