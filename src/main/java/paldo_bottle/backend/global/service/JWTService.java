@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -17,8 +18,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JWTService {
-//    @Value("${PALDOJWT.ISSUER_SECRET}")
-    private String Issuer = "paldo_lavin";
+    @Value("${jwt.ISSUR}")
+    private String Issuer;
 
     //JWT 생성
     public String makeJwtToken(String userId) {
