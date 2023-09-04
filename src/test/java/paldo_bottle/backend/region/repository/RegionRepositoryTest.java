@@ -26,7 +26,7 @@ class RegionRepositoryTest {
                 .district("성북구")
                 .description("근대")
                 .build();
-        Stamp stamp = new Stamp(10L);
+        Stamp stamp = new Stamp(10L,"");
         stamp.setRegion(region);
         region.setStamp(stamp);
         // when
