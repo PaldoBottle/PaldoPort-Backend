@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import paldo_bottle.backend.DTO.account.KakaoProfile;
-import paldo_bottle.backend.DTO.account.TokenResponse;
+import paldo_bottle.backend.DTO.account.*;
 import paldo_bottle.backend.member.repository.MemberRepository;
 
 import java.io.IOException;
@@ -63,11 +62,13 @@ public class AccountService {
     }
 
     //인가코드의 대상 정보 반환
-    public KakaoProfile getProfile(String code) {
+    public UserInfo getProfile(String code) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders header = new HttpHeaders();
         KakaoProfile profile = new KakaoProfile();
         ObjectMapper mapper = new ObjectMapper();
+        UserInfo user_info = new UserInfo();
+
 
         // 카카오 API로부터 엑세스 토큰 받아오기
         String Access_token = getToken(code);
@@ -75,21 +76,33 @@ public class AccountService {
         header.add("Authorization", "Bearer " + Access_token);
         header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        // 카카오 API에서 사용자 정보 받아오기
         HttpEntity<MultiValueMap<String, String>> profilereq = new HttpEntity<>(header);
+
+        // 카카오 API에서 사용자 정보 받아오기
         ResponseEntity<String> res = restTemplate.exchange(
                 "https://kapi.kakao.com/v2/user/me",
                 HttpMethod.POST,
                 profilereq,
                 String.class);
 
-        // 사용자 정보를 KakaoProfile Entity로 매핑
+
         try {
-            profile = mapper.readValue(res.getBody(), KakaoProfile.class);
+            // 사용자 정보를 KakaoProfile Entity로 매핑
+            profile = mapper.readValue(res.getBody (), KakaoProfile.class);
+
+            //user_profile 추출
+            Profile user_profile = profile.getKakao_account().getProfile();
+
+            //user_profile에서 필요한 정보만 추출
+            String user_nickname = user_profile.getNickname();
+            String user_profile_image = user_profile.getProfile_image_url();
+            String user_Id = profile.getId();
+            user_info = new UserInfo(user_nickname, user_profile_image, user_Id);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage());
         }
-        return profile;
+
+        return user_info;
     }
 
 
