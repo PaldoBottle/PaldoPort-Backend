@@ -31,7 +31,6 @@ public class MemberController {
         MemberInfo memberInfo;
         try {
             String user_Id = jwtService.doFilterInternal(requestBody.get("authToken"));
-            log.error("user_Id = {}", user_Id);
             memberInfo = memberService.getMember(user_Id);
         } catch (ExpiredJwtException | ServletException | IOException exception) {
             log.warn(exception.getMessage(), exception);
