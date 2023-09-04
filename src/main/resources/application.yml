@@ -1,6 +1,9 @@
 spring:
   config:
-    import: dbsettings.properties
+    import:
+    - dbsettings.properties
+    - kakaosettings.properties
+    - jwtsettings.properties
   server:
     address: localhost
     port: 8080
@@ -49,3 +52,14 @@ logging:
         type:
           descriptor:
             sql: trace
+
+
+kakao:
+  CLIENT_SECRET: p9iuf6DDf3WydhBHR9YwnDWOngEmo
+  REST_API_KEY: 223392a6512c6867ae141bab90e937f2
+  REDIRECT_URI: http://13.125.118.115:8080/oauth/kakao
+
+paldojwt:
+  ISSUER_SECRET: "paldo_lavin"
+
+
