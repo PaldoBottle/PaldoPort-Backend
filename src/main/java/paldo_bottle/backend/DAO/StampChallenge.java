@@ -34,4 +34,10 @@ public class StampChallenge {
             @JoinColumn(name = "district", referencedColumnName = "district")
     })
     private Stamp stamp;
+
+    public StampChallenge(String challengeName, String supDistrict, String district) {
+        this.challengeName = challengeName;
+        this.supDistrict = supDistrict;
+        this.district = district;
+    }
 }

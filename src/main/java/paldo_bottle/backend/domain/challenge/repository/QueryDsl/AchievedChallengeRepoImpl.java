@@ -9,6 +9,9 @@ import paldo_bottle.backend.DAO.QUser;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static paldo_bottle.backend.DAO.QOwnStamp.ownStamp;
+import static paldo_bottle.backend.DAO.QStampChallenge.stampChallenge;
+
 public class AchievedChallengeRepoImpl implements AchievedChallengeRepo {
     private final JPAQueryFactory queryFactory;
 
@@ -32,5 +35,18 @@ public class AchievedChallengeRepoImpl implements AchievedChallengeRepo {
                 .where(achieve.userId.id.eq(user_id))
                 .fetch();
         return userChallenges;
+    }
+
+
+    public List<Challenge> findChallengesAchievedByUser(String userId) {
+        List<Challenge> achievedChallenges = queryFactory
+                .selectFrom(challenge)
+                .join(stampChallenge).on(challenge.name.eq(stampChallenge.challengeName))
+                .join(ownStamp).on(stampChallenge.supDistrict.eq(ownStamp.stamp.location.supDistrict)
+                        .and(stampChallenge.district.eq(ownStamp.stamp.location.district)))
+                .join(user).on(ownStamp.user.id.eq(user.id))
+                .where(user.id.eq(userId))
+                .fetch();
+        return achievedChallenges;
     }
 }

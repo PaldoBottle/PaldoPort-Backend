@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface AchievedChallengeRepo {
     public List<Challenge> findAchievedChallengeList(String user_id);
+    public List<Challenge> findChallengesAchievedByUser(String userId);
 
 }

@@ -3,9 +3,11 @@ package paldo_bottle.backend.domain.challenge.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import paldo_bottle.backend.DAO.Challenge;
+import paldo_bottle.backend.DAO.Stamp;
 import paldo_bottle.backend.DTO.challenge.AchievedChallengeParam;
 import paldo_bottle.backend.DTO.challenge.AllChallengeParam;
 import paldo_bottle.backend.domain.challenge.repository.ChallengeRepository;
+import paldo_bottle.backend.domain.stamp.repository.StampRepository;
 import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.global.exception.BaseResponseStatus;
 import paldo_bottle.backend.global.service.JWTService;
@@ -20,25 +22,25 @@ public class ChallengeService {
 
     private final ChallengeRepository repository;
     private final JWTService jwtService;
+    private final StampRepository stampRepository;
 
-    public ChallengeService(ChallengeRepository repository, JWTService jwtService) {
+    public ChallengeService(ChallengeRepository repository, JWTService jwtService, StampRepository stampRepository) {
         this.repository = repository;
         this.jwtService = jwtService;
+        this.stampRepository = stampRepository;
     }
 
     //멤버가 획득한 도전과제 목록을 반환
     public List<AchievedChallengeParam> getAchievedChallenge(String user_Id) throws BaseException {
-        List<Challenge> userChallenges = null;
         List<AchievedChallengeParam> achievedChallengeParam = null;
-
-        userChallenges = repository.findAchievedChallengeList(user_Id);
+        List<Challenge> achievedChallengeList = repository.findChallengesAchievedByUser(user_Id);
 
         //멤버가 달성한 도전과제가 없는 경우
-        if(userChallenges == null) {
+        if(achievedChallengeList.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NOT_EXIST_ACHIEVED_CHALLENGE);
         }
 
-            for (Iterator<Challenge> iter = userChallenges.iterator(); iter.hasNext(); ) {
+            for (Iterator<Challenge> iter = achievedChallengeList.iterator(); iter.hasNext(); ) {
                 Challenge challenge = iter.next();
                 achievedChallengeParam.add(new AchievedChallengeParam().builder()
                         .name(challenge.getName())
@@ -56,10 +58,10 @@ public class ChallengeService {
         List<Challenge> achievedchallengeList;
 
         allchallengeList = repository.findAll();
-        achievedchallengeList = repository.findAchievedChallengeList(user_Id);
+        achievedchallengeList = repository.findChallengesAchievedByUser(user_Id);
 
         //현재 도전과제가 없는 경우
-        if(allchallengeList == null) {
+        if(allchallengeList.isEmpty()) {
             log.error("도전과제가 없습니다.");
             throw new BaseException(BaseResponseStatus.NOT_EXIST_CHALLENGE);
         }
