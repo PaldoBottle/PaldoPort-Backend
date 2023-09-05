@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,8 +21,8 @@ public class Challenge {
     @OneToMany(mappedBy = "challengeName", cascade = CascadeType.ALL)
     private List<Achieve> achieves;
 
-    @OneToMany(mappedBy = "challengeName", cascade = CascadeType.ALL)
-    private List<StampChallenge> stampList;
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
+    private List<StampChallenge> stampList = new ArrayList<>();
 
     @Column
     private String description;
@@ -33,5 +34,9 @@ public class Challenge {
         this.name = name;
         this.description = description;
         this.point = point;
+    }
+
+    public void add(StampChallenge stampChallenge) {
+        stampList.add(stampChallenge);
     }
 }

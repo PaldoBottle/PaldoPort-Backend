@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import paldo_bottle.backend.DAO.*;
+import paldo_bottle.backend.DAO.embedded.RegionID;
 import paldo_bottle.backend.domain.challenge.repository.ChallengeRepository;
 import paldo_bottle.backend.domain.challenge.repository.StampChallengeRepository;
 import paldo_bottle.backend.domain.member.repository.MemberRepository;
@@ -22,7 +23,7 @@ public class MockDataLoader implements ApplicationRunner {
     private final StampRepository stampRepository;
     private final MemberRepository userRepository;
     private final ChallengeRepository challengeRepository;
-    private final StampChallenge stampChallenge;
+
     private final StampChallengeRepository stampChallengeRepository;
 
 
@@ -70,27 +71,25 @@ public class MockDataLoader implements ApplicationRunner {
     private void loadChallenge() {
         List<Challenge> challenges = new ArrayList<>();
 
-        Challenge chungcheongMaster = new Challenge("충청도 마스터", "충청남도 제역시와 충청북도 부여군 방문 시 획득 가능", 100L);
+        Stamp stamp1 = stampRepository.findById(new RegionID("충청남도", "제천시")).get();
+        Stamp stamp2 = stampRepository.findById(new RegionID("충청북도", "부여군")).get();
+        Stamp stamp3 = stampRepository.findById(new RegionID("서울시", "중구")).get();
+
+        Challenge chungcheongMaster = new Challenge("충청도 마스터", "충청남도 제천시와 충청북도 부여군 방문 시 획득 가능", 100L);
+        StampChallenge stampChallenge1 = StampChallenge.createStampChallenge(chungcheongMaster, stamp1);
+        StampChallenge stampChallenge2 = StampChallenge.createStampChallenge(chungcheongMaster, stamp2);
+
+        chungcheongMaster.add(stampChallenge1);
+        chungcheongMaster.add(stampChallenge2);
         challenges.add(chungcheongMaster);
 
-        StampChallenge chungcheongMasterStamp1 = new StampChallenge("충청도 마스터", "충청남도", "제역시");
-
-        StampChallenge chungcheongMasterStamp2 = new StampChallenge("충청도 마스터", "충청북도", "부여군");
-
-        stampChallengeRepository.save(chungcheongMasterStamp1);
-        stampChallengeRepository.save(chungcheongMasterStamp2);
-
-
-
         Challenge jonggubuyeoMaster = new Challenge("중구 부여 마스터", "서울특별시 중구와 충청북도 부여 방문 시 획득 가능", 150L);
+        StampChallenge stampChallenge3 = StampChallenge.createStampChallenge(jonggubuyeoMaster, stamp2);
+        StampChallenge stampChallenge4 = StampChallenge.createStampChallenge(jonggubuyeoMaster, stamp3);
+
+        jonggubuyeoMaster.add(stampChallenge3);
+        jonggubuyeoMaster.add(stampChallenge4);
         challenges.add(jonggubuyeoMaster);
-
-
-        StampChallenge jonggubuyeoMasterStamp1 = new StampChallenge("중구 부여 마스터", "서울특별시", "중구");
-        StampChallenge jonggubuyeoMasterStamp2 = new StampChallenge("중구 부여 마스터", "충청북도", "부여군");
-
-        stampChallengeRepository.save(jonggubuyeoMasterStamp1);
-        stampChallengeRepository.save(jonggubuyeoMasterStamp2);
 
         challengeRepository.saveAll(challenges);
     }

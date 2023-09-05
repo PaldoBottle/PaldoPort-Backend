@@ -1,9 +1,8 @@
 package paldo_bottle.backend.DAO;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import paldo_bottle.backend.DAO.embedded.OwnStampID;
+import paldo_bottle.backend.DAO.embedded.StampChallengeID;
 import paldo_bottle.backend.DAO.identifier.StampChallengePK;
 
 import javax.persistence.*;
@@ -14,30 +13,33 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 @Getter
-@IdClass(StampChallengePK.class)
+@Setter
 public class StampChallenge {
-    @Id
-    private String  challengeName;
+    @EmbeddedId
+    private StampChallengeID id;
 
-    @Id
-    @Column(name = "supDistrict", length = 200, nullable = false, insertable=false, updatable = false)
-    private String supDistrict;
+    @MapsId("challengeName")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "challengeName")
+    private Challenge challenge;
 
-    @Id
-    @Column(name = "district", length = 200, nullable = false, insertable=false, updatable = false)
-    private String district;
-
-    @Id
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "supDistrict", referencedColumnName = "supDistrict"),
-            @JoinColumn(name = "district", referencedColumnName = "district")
+            @JoinColumn(name = "supDistrict"),
+            @JoinColumn(name = "district")
     })
+    @MapsId("location")
     private Stamp stamp;
 
-    public StampChallenge(String challengeName, String supDistrict, String district) {
-        this.challengeName = challengeName;
-        this.supDistrict = supDistrict;
-        this.district = district;
+    static public StampChallenge createStampChallenge(Challenge challenge, Stamp stamp) {
+        StampChallenge stampChallenge = new StampChallenge();
+        stampChallenge.id = new StampChallengeID(
+                challenge.getName(),
+                stamp.getLocation()
+        );
+        stampChallenge.setStamp(stamp);
+        stampChallenge.setChallenge(challenge);
+        return stampChallenge;
     }
+
 }

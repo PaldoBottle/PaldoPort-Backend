@@ -41,9 +41,8 @@ public class AchievedChallengeRepoImpl implements AchievedChallengeRepo {
     public List<Challenge> findChallengesAchievedByUser(String userId) {
         List<Challenge> achievedChallenges = queryFactory
                 .selectFrom(challenge)
-                .join(stampChallenge).on(challenge.name.eq(stampChallenge.challengeName))
-                .join(ownStamp).on(stampChallenge.supDistrict.eq(ownStamp.stamp.location.supDistrict)
-                        .and(stampChallenge.district.eq(ownStamp.stamp.location.district)))
+                .join(stampChallenge).on(challenge.name.eq(stampChallenge.id.challengeName))
+                .join(ownStamp).on(stampChallenge.id.location.eq(ownStamp.ownStampID.location))
                 .join(user).on(ownStamp.user.id.eq(user.id))
                 .where(user.id.eq(userId))
                 .fetch();
