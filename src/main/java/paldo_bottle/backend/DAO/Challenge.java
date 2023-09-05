@@ -28,4 +28,10 @@ public class Challenge {
 
     @Column
     private Long point;
+
+    public Challenge(String name, String description, Long point){
+        this.name = name;
+        this.description = description;
+        this.point = point;
+    }
 }

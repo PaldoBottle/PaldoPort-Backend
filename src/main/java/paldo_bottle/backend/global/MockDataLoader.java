@@ -5,10 +5,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import paldo_bottle.backend.DAO.Landmark;
-import paldo_bottle.backend.DAO.Region;
-import paldo_bottle.backend.DAO.Stamp;
-import paldo_bottle.backend.DAO.User;
+import paldo_bottle.backend.DAO.*;
+import paldo_bottle.backend.domain.challenge.repository.ChallengeRepository;
 import paldo_bottle.backend.domain.member.repository.MemberRepository;
 import paldo_bottle.backend.domain.region.repository.RegionRepository;
 import paldo_bottle.backend.domain.stamp.repository.StampRepository;
@@ -22,6 +20,7 @@ public class MockDataLoader implements ApplicationRunner {
     private final RegionRepository regionRepository;
     private final StampRepository stampRepository;
     private final MemberRepository userRepository;
+    private final ChallengeRepository challengeRepository;
 
 
 
@@ -30,6 +29,7 @@ public class MockDataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         loadUser();
         loadRegionStamp();
+        loadChallenge();
     }
 
     private void loadUser() {
@@ -63,6 +63,19 @@ public class MockDataLoader implements ApplicationRunner {
         regions.add(buyeo);
 
         regionRepository.saveAll(regions);
+    }
+
+    private void loadChallenge() {
+        List<Challenge> challenges = new ArrayList<>();
+
+        Challenge chungcheongMaster = new Challenge("충청도 마스터", "충청남도 제역시와 충청북도 부여군 방문 시 획득 가능", 100L);
+
+        challenges.add(chungcheongMaster);
+
+        Challenge jonggubuyeoMaster = new Challenge("중구 부여 마스터", "서울특별시 중구와 충청북도 부여 방문 시 획득 가능", 150L);
+        challenges.add(jonggubuyeoMaster);
+
+        challengeRepository.saveAll(challenges);
     }
 
     private Region create_region_stamp(String supDistrict, String district, String region_description
