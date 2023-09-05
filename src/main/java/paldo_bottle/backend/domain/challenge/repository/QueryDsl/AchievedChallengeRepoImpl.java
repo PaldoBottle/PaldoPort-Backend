@@ -29,7 +29,7 @@ public class AchievedChallengeRepoImpl implements AchievedChallengeRepo {
                 .select(challenge)
                 .from(achieve)
                 .join(achieve.challengeName, challenge)
-                .where(achieve.userId.eq(user))
+                .where(achieve.userId.id.eq(user_id))
                 .fetch();
         return userChallenges;
     }

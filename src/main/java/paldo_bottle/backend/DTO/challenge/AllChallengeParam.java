@@ -17,8 +17,4 @@ public class AllChallengeParam {
         this.point = point;
         this.isAchieved = isAchieved;
     }
-
-    public AllChallengeParam() {
-
-    }
 }

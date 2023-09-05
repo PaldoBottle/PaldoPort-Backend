@@ -10,6 +10,7 @@ import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.global.exception.BaseResponseStatus;
 import paldo_bottle.backend.global.service.JWTService;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class ChallengeService {
 
     //모든 도전과제 목록을 반환
     public List<AllChallengeParam> getAllChallenge(String user_Id) throws BaseException {
-        List<AllChallengeParam> allChallengeParam = null;
+        List<AllChallengeParam> allChallengeParamList = new ArrayList<>();
         List<Challenge> allchallengeList;
         List<Challenge> achievedchallengeList;
 
@@ -59,6 +60,7 @@ public class ChallengeService {
 
         //현재 도전과제가 없는 경우
         if(allchallengeList == null) {
+            log.error("도전과제가 없습니다.");
             throw new BaseException(BaseResponseStatus.NOT_EXIST_CHALLENGE);
         }
 
@@ -73,14 +75,16 @@ public class ChallengeService {
                 }
             }
 
-            allChallengeParam.add(new AllChallengeParam().builder()
+            AllChallengeParam allChallengeParam = AllChallengeParam.builder()
                     .name(challenge.getName())
                     .description(challenge.getDescription())
                     .point(challenge.getPoint())
                     .isAchieved(isAchieved)
-                    .build());
+                    .build();
+
+            allChallengeParamList.add(allChallengeParam);
         }
 
-        return allChallengeParam;
+        return allChallengeParamList;
     }
 }
