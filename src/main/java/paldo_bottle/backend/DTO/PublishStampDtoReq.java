@@ -8,4 +8,5 @@ import lombok.Getter;
 public class PublishStampDtoReq {
     private String supDistrict;
     private String district;
+    private String authToken;
 }

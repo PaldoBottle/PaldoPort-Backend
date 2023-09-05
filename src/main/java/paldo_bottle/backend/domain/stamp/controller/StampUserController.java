@@ -41,9 +41,9 @@ public class StampUserController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = PublishStampDtoRes.class))),
             @ApiResponse(responseCode = "404", description = "리소스가 없습니다.", content = @Content(schema = @Schema(implementation = String.class)))
     })
-    public ResponseEntity publishStamp(@RequestBody Map<String, String> requestBody, PublishStampDtoReq dtoReq) {
+    public ResponseEntity publishStamp(@RequestBody PublishStampDtoReq dtoReq) {
         try {
-            String userId = jwtService.doFilterInternal(requestBody.get("authToken"));
+            String userId = jwtService.doFilterInternal(dtoReq.getAuthToken());
             PublishStampDtoRes publishStampDtoRes = this.stampService.publishStamp(userId, dtoReq);
             return new ResponseEntity<>(publishStampDtoRes, HttpStatus.OK);
         } catch (ExpiredJwtException | ServletException | IOException exception) {
