@@ -34,8 +34,8 @@ public class Stamp {
     private List<OwnStamp> owners = new ArrayList<>();
 
     @Column()
-    @ColumnDefault(value = "0")
-    private Long published = 0L;
+    @ColumnDefault(value = "1")
+    private Long published = 1L;
 
     public Stamp(Long point, String imageUrl) {
         this.imageUrl = imageUrl;
