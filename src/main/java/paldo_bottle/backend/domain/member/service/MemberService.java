@@ -8,6 +8,8 @@ import paldo_bottle.backend.global.exception.BaseException;
 import paldo_bottle.backend.global.exception.BaseResponseStatus;
 import paldo_bottle.backend.domain.member.repository.MemberRepository;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class MemberService {
@@ -18,10 +20,11 @@ public class MemberService {
     }
 
     public MemberInfo getMember(String user_Id) throws BaseException {
-        User user = repository.findById(user_Id).get();
-        if(user == null) {
-            throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
+        Optional<User> optionalUser = repository.findById(user_Id);
+        if(optionalUser.isEmpty()) {
+            return null;
         }
+        User user = optionalUser.get();
         MemberInfo memberInfo = new MemberInfo().builder()
                 .id(user.getId())
                 .point(user.getPoint())

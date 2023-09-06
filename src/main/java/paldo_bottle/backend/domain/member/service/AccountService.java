@@ -64,7 +64,7 @@ public class AccountService {
 
 
         // 카카오 API로부터 엑세스 토큰 받아오기
-        String Access_token = getToken(code);
+        String Access_token = code;
 
         header.add("Authorization", "Bearer " + Access_token);
         header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
