@@ -39,6 +39,7 @@ public class User {
     public User(String user_id, String user_profile_image) {
         this.id = user_id;
         this.profileImg = user_profile_image;
+        this.point = 0L;
     }
 
     public void addStamps(OwnStamp ownStamp) {
