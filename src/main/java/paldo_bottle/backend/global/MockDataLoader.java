@@ -97,7 +97,11 @@ public class MockDataLoader implements ApplicationRunner {
 
         Stamp stamp1 = stampRepository.findById(new RegionID("충청남도", "제천시")).get();
         Stamp stamp2 = stampRepository.findById(new RegionID("충청북도", "부여군")).get();
-        Stamp stamp3 = stampRepository.findById(new RegionID("서울시", "중구")).get();
+        Stamp se_jong = stampRepository.findById(new RegionID("서울시", "중구")).get();
+        Stamp jn_wando = stampRepository.findById(new RegionID("전라남도", "완도군")).get();
+        Stamp gang_cheorwon = stampRepository.findById(new RegionID("강원도", "철원군")).get();
+        Stamp jb_namwon = stampRepository.findById(new RegionID("전라북도", "남원시")).get();
+        Stamp gn_changyeong = stampRepository.findById(new RegionID("경상남도", "창녕군")).get();
 
         Challenge chungcheongMaster = new Challenge("충청도 마스터", "충청남도 제천시와 충청북도 부여군 방문 시 획득 가능", 100L);
         StampChallenge stampChallenge1 = StampChallenge.createStampChallenge(chungcheongMaster, stamp1);
@@ -109,11 +113,35 @@ public class MockDataLoader implements ApplicationRunner {
 
         Challenge jonggubuyeoMaster = new Challenge("중구 부여 마스터", "서울특별시 중구와 충청북도 부여 방문 시 획득 가능", 150L);
         StampChallenge stampChallenge3 = StampChallenge.createStampChallenge(jonggubuyeoMaster, stamp2);
-        StampChallenge stampChallenge4 = StampChallenge.createStampChallenge(jonggubuyeoMaster, stamp3);
+        StampChallenge stampChallenge4 = StampChallenge.createStampChallenge(jonggubuyeoMaster, se_jong);
 
         jonggubuyeoMaster.add(stampChallenge3);
         jonggubuyeoMaster.add(stampChallenge4);
         challenges.add(jonggubuyeoMaster);
+
+        challenges.add(
+                make_challenge(
+                        "전라도 마스터",
+                        "전라도 전 지역 방문시 획득",
+                        150L,
+                        jb_namwon,
+                        jb_namwon)
+        );
+        challenges.add(
+                make_challenge("서울시 마스터",
+                        "서울시 전 지역 방문시 획득",
+                        150L,
+                        se_jong)
+        );
+        challenges.add(
+                make_challenge(
+                        "분단의 아픔",
+                        "6.25 관련 시설 전 지역 방문시 획득",
+                        150L,
+                        gang_cheorwon
+                )
+        );
+
 
         challengeRepository.saveAll(challenges);
     }
@@ -129,5 +157,14 @@ public class MockDataLoader implements ApplicationRunner {
         stamp.setRegion(region);
         region.setStamp(stamp);
         return region;
+    }
+
+    private Challenge make_challenge(String challenge_name, String challenge_description, Long challenge_point,
+                                    Stamp ... stamps) {
+        Challenge challenge = new Challenge(challenge_name, challenge_description, challenge_point);
+        for (Stamp stamp : stamps) {
+            challenge.add(StampChallenge.createStampChallenge(challenge, stamp));
+        }
+        return challenge;
     }
 }
