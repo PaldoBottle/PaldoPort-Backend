@@ -125,7 +125,7 @@ public class MockDataLoader implements ApplicationRunner {
                         "전라도 전 지역 방문시 획득",
                         150L,
                         jb_namwon,
-                        jb_namwon)
+                        jn_wando)
         );
         challenges.add(
                 make_challenge("서울시 마스터",
@@ -141,7 +141,15 @@ public class MockDataLoader implements ApplicationRunner {
                         gang_cheorwon
                 )
         );
-
+        challenges.add(
+                make_challenge(
+                        "왜군 격퇴",
+                        "일본 군의 침략 관련 전 지역 방문시 획득",
+                        150L,
+                        jn_wando,
+                        gn_changyeong
+                )
+        );
 
         challengeRepository.saveAll(challenges);
     }
