@@ -65,6 +65,30 @@ public class MockDataLoader implements ApplicationRunner {
         buyeo.addLandmark(buyeo_landmark);
         regions.add(buyeo);
 
+        Region changyeong = create_region_stamp("경상남도", "창녕군", "창녕입니다.", 15L,
+                "https://stampimage.s3.ap-northeast-2.amazonaws.com/Gyeongsangnam-do_Changnyeong-gun.png");
+        Landmark changyeong_landmark = new Landmark("화왕산성", "임진왜란 때 군사적 요충지였습니다.", 128.5374, 35.5458);
+        changyeong.addLandmark(changyeong_landmark);
+        regions.add(changyeong);
+
+        Region namwon = create_region_stamp("전라북도", "남원시", "남원시입니다.", 15L,
+                "https://stampimage.s3.ap-northeast-2.amazonaws.com/Jeollabuk-do_Namwon-si.png");
+        Landmark namwon_landmark = new Landmark("광한루", "춘향전의 배경입니다", 127.3794, 35.4038);
+        namwon.addLandmark(namwon_landmark);
+        regions.add(namwon);
+
+        Region wando = create_region_stamp("전라남도", "완도군", "완도군입니다.", 15L,
+                "https://stampimage.s3.ap-northeast-2.amazonaws.com/Jeollanam-do_Wando-gun.png");
+        Landmark wando_landmark = new Landmark("청해진 유적지", "청해진 유적지입니다.", 126.7352, 34.3586);
+        wando.addLandmark(wando_landmark);
+        regions.add(wando);
+
+        Region cheorwon = create_region_stamp("강원도", "철원군", "철원군입니다.", 15L,
+                "https://stampimage.s3.ap-northeast-2.amazonaws.com/Gangwon-do_Cheorwon-gun.png");
+        Landmark cheorwon_landmark = new Landmark("철원 노동당사", "북한이 건설했던 노동당사입니다.", 127.2019, 38.2551);
+        cheorwon.addLandmark(cheorwon_landmark);
+        regions.add(cheorwon);
+
         regionRepository.saveAll(regions);
     }
 
